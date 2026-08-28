@@ -189,7 +189,7 @@ export default function Loader({ duration = 5000, onComplete }: LoaderProps) {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="flex items-center space-x-2"
         >
-          <span className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+          <span className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white">
             Haleem<span className="text-blue-500">.dev</span>
           </span>
           <span className="relative flex h-2 w-2">
