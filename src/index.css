@@ -8,6 +8,15 @@
 }
 
 :root {
+  /* Theme Colors — Dark Obsidian with Mint/Teal Accent */
+  --bg-primary: #050505;
+  --bg-surface: #0a0a0c;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --color-accent: #2dd4bf;
+  --color-accent-glow: rgba(45, 212, 191, 0.15);
+
   /* Motion tokens — shared scale from transitions.dev */
   --duration-stagger: 40ms;
   --duration-micro: 80ms;
@@ -25,10 +34,10 @@
   /* Tabs sliding tokens */
   --tabs-dur: var(--duration-fast);
   --tabs-ease: var(--ease-smooth-out);
-  --tabs-text-muted: rgb(148, 163, 184); /* slate-400 */
-  --tabs-text-active: rgb(255, 255, 255);
-  --tabs-bar-bg: rgba(15, 23, 42, 0.65); /* slate-900/65 */
-  --tabs-pill-bg: rgba(30, 41, 59, 0.85); /* slate-800/85 */
+  --tabs-text-muted: #8a94a6;
+  --tabs-text-active: #ffffff;
+  --tabs-bar-bg: rgba(10, 10, 12, 0.7);
+  --tabs-pill-bg: rgba(22, 22, 28, 0.85);
 
   /* Menu dropdown tokens */
   --dropdown-open-dur: var(--duration-fast);

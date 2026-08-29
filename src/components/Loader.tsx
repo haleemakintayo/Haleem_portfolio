@@ -90,7 +90,7 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
           <motion.div
             key={i}
             className="w-3 rounded-full origin-bottom"
-            style={{ height: '16px', backgroundColor: theme === 'dark' ? 'rgb(51, 65, 85)' : 'rgb(228, 228, 231)' }}
+            style={{ height: '16px', backgroundColor: theme === 'dark' ? 'rgb(39, 39, 42)' : 'rgb(228, 228, 231)' }}
             animate={{
               height: bar.heights,
               backgroundColor: bar.colors,
@@ -105,7 +105,7 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
         ))}
         
         <motion.div
-          className="absolute w-3.5 h-3.5 bg-blue-500 rounded-full z-10 shadow-[0_0_12px_rgba(59,130,246,0.8)]"
+          className="absolute w-3.5 h-3.5 bg-emerald-400 rounded-full z-10 shadow-[0_0_14px_rgba(52,211,153,0.8)]"
           style={{ bottom: 0, left: 0, transformOrigin: 'bottom center' }}
           animate={{
             x: ballX,
@@ -175,13 +175,13 @@ export default function Loader({ duration = 5000, onComplete }: LoaderProps) {
         filter: 'blur(8px)',
         transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } 
       }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950 text-white select-none overflow-hidden"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050505] text-white select-none overflow-hidden"
     >
       {/* Background glow effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
-        
+                    
         {/* Brand Name on top */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -190,11 +190,11 @@ export default function Loader({ duration = 5000, onComplete }: LoaderProps) {
           className="flex items-center space-x-2"
         >
           <span className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            Haleem<span className="text-blue-500">.dev</span>
+            Haleem<span className="text-emerald-400">.dev</span>
           </span>
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
           </span>
         </motion.div>
 
@@ -215,15 +215,15 @@ export default function Loader({ duration = 5000, onComplete }: LoaderProps) {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col items-center space-y-2 w-48"
         >
-          <div className="flex items-center justify-between w-full text-xs font-mono text-slate-400">
+          <div className="flex items-center justify-between w-full text-xs font-mono text-[#8a94a6]">
             <span className="tracking-widest uppercase text-[10px] text-slate-500">Loading</span>
-            <span className="tabular-nums font-semibold text-blue-400">{percentage}%</span>
+            <span className="tabular-nums font-semibold text-emerald-400">{percentage}%</span>
           </div>
 
           {/* Progress Bar */}
-          <div className="w-full h-1 bg-slate-800/80 rounded-full overflow-hidden border border-slate-700/40">
+          <div className="w-full h-1 bg-slate-900 rounded-full overflow-hidden border border-white/[0.06]">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+              className="h-full bg-gradient-to-r from-emerald-600 to-teal-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.6)]"
               style={{ width: `${percentage}%` }}
               transition={{ ease: 'linear' }}
             />
