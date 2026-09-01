@@ -2,6 +2,7 @@ import { ArrowUpRight, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PERSONAL_INFO, PROJECTS } from '../data/PortfolioData';
 import haleemImg from '../assets/Haleem.png';
+import GithubStatsCard from './GithubStatsCard';
 
 export default function BentoHero() {
   return (
@@ -21,7 +22,7 @@ export default function BentoHero() {
             </div>
 
             <h1 className="font-heading text-3xl sm:text-4xl lg:text-[46px] font-bold text-white tracking-tight leading-[1.2]">
-              Hello, I’m <span className="text-emerald-400">Haleem</span>, a Full-Stack Developer & AI Builder with 3 years of experience.
+              Hello, I'm <span className="text-emerald-400">Haleem</span>, a Full-Stack Developer & AI Builder with 3 years of experience.
             </h1>
 
             <p className="mt-6 text-[#8a94a6] text-sm sm:text-base leading-relaxed max-w-xl">
@@ -72,6 +73,17 @@ export default function BentoHero() {
               >
                 <Mail size={16} />
               </a>
+              <a
+                href="https://x.com/haleemakintayo"
+                target="_blank"
+                rel="noreferrer"
+                className="h-10 w-10 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] text-slate-300 hover:text-white flex items-center justify-center transition-all active:scale-95"
+                aria-label="Twitter Profile"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-8.495-6.618 8.495H.83l8.63-9.87L0 1.153h7.594l5.243 7.792 6.063-7.792Zm-1.292 19.49h2.039L6.486 2.773H4.298l13.311 17.87Z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -98,27 +110,27 @@ export default function BentoHero() {
 
       </div>
 
-      {/* BOTTOM ROW: Featured Projects Cards Matching Reference Layout */}
+      {/* BOTTOM ROW: Bento Grid of Featured Works + Live GitHub Activity */}
       <div className="relative z-10 mt-4">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="font-heading text-2xl font-bold text-white">Selected Works</h2>
-            <p className="text-xs font-mono text-slate-400 mt-0.5">Flagship engineering and applications</p>
+            <h2 className="font-heading text-2xl font-bold text-white">Selected Works & Telemetry</h2>
+            <p className="text-xs font-mono text-slate-400 mt-0.5">Flagship engineering, applications & live open-source stats</p>
           </div>
           <Link
             to="/projects"
             className="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
           >
-            <span>View all ({PROJECTS.length})</span>
+            <span>View all projects ({PROJECTS.length})</span>
             <ArrowUpRight size={14} />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.slice(0, 2).map((project) => (
             <div
               key={project.id}
-              className="rounded-3xl bg-[#0a0a0c]/80 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 shadow-xl group"
+              className="rounded-3xl bg-[#0a0a0c]/80 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 shadow-xl group"
             >
               <div>
                 <div className="flex items-start justify-between gap-4 mb-4">
@@ -126,7 +138,7 @@ export default function BentoHero() {
                     <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider block mb-1">
                       {project.tag}
                     </span>
-                    <h3 className="font-heading text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
+                    <h3 className="font-heading text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
                       {project.title}
                     </h3>
                     <p className="text-xs font-mono text-slate-400 mt-1">
@@ -139,23 +151,23 @@ export default function BentoHero() {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="h-10 w-10 rounded-full bg-white text-black hover:bg-emerald-400 flex items-center justify-center transition-all shrink-0 active:scale-95 shadow-md"
+                      className="h-9 w-9 rounded-full bg-white text-black hover:bg-emerald-400 flex items-center justify-center transition-all shrink-0 active:scale-95 shadow-md"
                       aria-label={`Open ${project.title}`}
                     >
-                      <ArrowUpRight size={18} />
+                      <ArrowUpRight size={16} />
                     </a>
                   ) : (
                     <Link
                       to="/projects"
-                      className="h-10 w-10 rounded-full bg-white/[0.08] hover:bg-emerald-400 hover:text-black text-white flex items-center justify-center transition-all shrink-0 active:scale-95"
+                      className="h-9 w-9 rounded-full bg-white/[0.08] hover:bg-emerald-400 hover:text-black text-white flex items-center justify-center transition-all shrink-0 active:scale-95"
                       aria-label={`View details for ${project.title}`}
                     >
-                      <ArrowUpRight size={18} />
+                      <ArrowUpRight size={16} />
                     </Link>
                   )}
                 </div>
 
-                <p className="text-sm text-[#8a94a6] leading-relaxed mb-4">
+                <p className="text-xs sm:text-sm text-[#8a94a6] leading-relaxed mb-4">
                   {project.description}
                 </p>
               </div>
@@ -164,7 +176,7 @@ export default function BentoHero() {
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
+                    className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
                   >
                     {tech}
                   </span>
@@ -172,9 +184,12 @@ export default function BentoHero() {
               </div>
             </div>
           ))}
+
+          {/* 3rd Card: Real-time Live GitHub Stats Card */}
+          <GithubStatsCard username="haleemakintayo" />
         </div>
       </div>
     </section>
   );
 }
-
+

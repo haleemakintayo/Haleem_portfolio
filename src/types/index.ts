@@ -8,6 +8,8 @@ export interface ProjectItem {
   liveUrl?: string;
   githubUrl?: string;
   tag?: string;
+  imageUrl?: string;
+  screenshots?: string[];
 }
 
 export interface ExperienceItem {

@@ -21,7 +21,8 @@ export default function Navbar() {
 
   const isLinkActive = (to: string) => {
     if (to === '/') return location.pathname === '/' && !location.hash;
-    if (to.startsWith('/#')) return location.pathname === '/' && location.hash === to.replace('/', '');
+    if (to === '/#experience') return location.pathname === '/experience' || (location.pathname === '/' && location.hash === '#experience');
+    if (to === '/#contact') return location.pathname === '/' && location.hash === '#contact';
     return location.pathname === to;
   };
 

@@ -1,4 +1,11 @@
 import type { ProjectItem, ExperienceItem, SkillCategory, HonorItem } from '../types';
+import cedarMenImg1 from '../assets/CedarMenscreenshot1.png';
+import cedarMenImg2 from '../assets/CedarMenScreenshot2.png';
+import fundwaveImg1 from '../assets/FundwaveSCreensht.png';
+import fundwaveImg2 from '../assets/FundwaveSCreensht2.png';
+import fundwaveImg3 from '../assets/FundwaveSCreensht3.png';
+import visaroImg1 from '../assets/VisaroScreenshot1.png';
+import visaroImg2 from '../assets/VisaroScreenshot2.png';
 
 export const PERSONAL_INFO = {
   name: "Akintayo Haleem Opeyemi",
@@ -55,6 +62,8 @@ export const PROJECTS: ProjectItem[] = [
     ],
     techStack: ["Django", "Chart.js", "Bootstrap", "Payaza API", "MySQL"],
     tag: "Fintech",
+    imageUrl: fundwaveImg1,
+    screenshots: [fundwaveImg1, fundwaveImg2, fundwaveImg3],
   },
   {
     id: "cedarmen",
@@ -68,6 +77,8 @@ export const PROJECTS: ProjectItem[] = [
     techStack: ["Django", "Chart.js", "Bootstrap", "MySQL"],
     liveUrl: "https://cedarmen.shop",
     tag: "E-Commerce",
+    imageUrl: cedarMenImg1,
+    screenshots: [cedarMenImg1, cedarMenImg2],
   },
   {
     id: "tsa-global",
@@ -82,6 +93,21 @@ export const PROJECTS: ProjectItem[] = [
     liveUrl: "https://tsaglobalconsulting.com",
     tag: "EdTech",
   },
+  {
+    id: "visaro",
+    title: "Visaro",
+    subtitle: "Enterprise Platform (visaro.ng)",
+    description: "A live commercial platform where I architected modern UI interfaces and handled technical user onboarding flows.",
+    points: [
+      "Designed and implemented modern, minimalist UI/UX components while ensuring seamless state integration.",
+      "Executed technical communication guidelines and scripts for the platform's user verification and marketing phases.",
+    ],
+    techStack: ["React", "JavaScript", "Tailwind CSS", "REST APIs", "TypeScript"],
+    liveUrl: "https://visaro.ng",
+    tag: "Commercial",
+    imageUrl: visaroImg1,
+    screenshots: [visaroImg1, visaroImg2],
+  },
 ];
 
 export const EXPERIENCES: ExperienceItem[] = [
@@ -94,7 +120,7 @@ export const EXPERIENCES: ExperienceItem[] = [
       "Designed and implemented modern, minimalist UI/UX components with seamless state integration.",
       "Executed technical communication guidelines and user verification onboarding pipelines.",
     ],
-    techStack: ["React", "JavaScript", "REST APIs", "Tailwind CSS"],
+    techStack: ["React", "JavaScript", "REST APIs", "Tailwind CSS","TypeScript"],
   },
   {
     role: "Back-End Developer",
@@ -134,9 +160,5 @@ export const HONORS: HonorItem[] = [
   {
     title: "Campus Community Ambassador & Co-Lead",
     organization: "Data Science Nigeria",
-  },
-  {
-    title: "Research Team Member",
-    organization: "RAIN (Robotics and AI Nigeria) - OOU Chapter",
   },
 ];
