@@ -96,7 +96,7 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
               backgroundColor: bar.colors,
             }}
             transition={{
-              duration: 4,
+              duration: 2,
               repeat: Infinity,
               times: times,
               ease: 'linear',
@@ -114,7 +114,7 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
             scaleY: ballScaleY,
           }}
           transition={{
-            duration: 4,
+            duration: 2,
             repeat: Infinity,
             times: times,
             ease: 'linear',
@@ -126,11 +126,11 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
 }
 
 interface LoaderProps {
-  duration?: number; // duration in ms, defaults to 5000 (5 seconds)
+  duration?: number; // duration in ms, defaults to 2000 (2 seconds)
   onComplete?: () => void;
 }
 
-export default function Loader({ duration = 5000, onComplete }: LoaderProps) {
+export default function Loader({ duration = 2000, onComplete }: LoaderProps) {
   const [percentage, setPercentage] = useState<number>(1);
 
   useEffect(() => {

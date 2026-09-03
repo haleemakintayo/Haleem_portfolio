@@ -104,7 +104,7 @@ export default function App() {
         <AnimatePresence mode="wait">
           {isLoading && (
             <Loader 
-              duration={5000} 
+              duration={2000} 
               onComplete={() => setIsLoading(false)} 
             />
           )}
@@ -118,7 +118,7 @@ export default function App() {
             className="relative z-10 min-h-screen flex flex-col"
           >
             <Navbar />
-            <main className="flex-grow">
+            <main className="flex-grow pt-16">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/projects" element={<ProjectsPage />} />

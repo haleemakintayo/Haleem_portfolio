@@ -150,6 +150,10 @@ export const EXPERIENCES: ExperienceItem[] = [
 
 export const HONORS: HonorItem[] = [
   {
+    title:" 1st Runner Up (African Entellignce Hub Hackathon) ",
+    organization: "Deep Learning Indaba (DLI 2026)",
+  },
+  {
     title: "1st Place (Faculty Level)",
     organization: "OOU Research Innovation Challenge",
   },
