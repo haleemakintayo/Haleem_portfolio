@@ -10,6 +10,7 @@ const NAV_LINKS: NavLinkItem[] = [
   { name: 'About', to: '/' },
   { name: 'Projects', to: '/projects' },
   { name: 'Experience', to: '/#experience' },
+  { name: 'Resume', to: '/resume' },
   { name: 'Contact', to: '/#contact' },
 ];
 
@@ -23,6 +24,7 @@ export default function Navbar() {
     if (to === '/') return location.pathname === '/' && !location.hash;
     if (to === '/#experience') return location.pathname === '/experience' || (location.pathname === '/' && location.hash === '#experience');
     if (to === '/#contact') return location.pathname === '/' && location.hash === '#contact';
+    if (to === '/projects') return location.pathname.startsWith('/projects');
     return location.pathname === to;
   };
 
@@ -43,8 +45,8 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
+            <div className="flex items-center space-x-8">
               {NAV_LINKS.map((link) => {
                 const active = isLinkActive(link.to);
                 return (
@@ -62,6 +64,16 @@ export default function Navbar() {
                 );
               })}
             </div>
+
+            {/* Quick CV Download Button */}
+            <a
+              href="/Akintayo_Haleem_Opeyemi_Resume.pdf"
+              download="Akintayo_Haleem_Opeyemi_Resume.pdf"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 text-xs font-mono transition-all active:scale-95 shadow-sm"
+              title="Download CV"
+            >
+              <span>Download CV</span>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}

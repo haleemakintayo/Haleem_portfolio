@@ -1,4 +1,5 @@
-import { ArrowUpRight, Mail } from 'lucide-react';
+import { ArrowUpRight, Mail, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { PERSONAL_INFO } from '../data/PortfolioData';
 
 export default function Footer() {
@@ -14,6 +15,18 @@ export default function Footer() {
           <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-sm">
             Engineering scalable backends, autonomous AI agents, and intuitive web systems.
           </p>
+          <div className="flex items-center gap-4 mt-3 text-xs font-mono text-slate-400">
+            <Link to="/projects" className="hover:text-emerald-400 transition-colors">Projects</Link>
+            <Link to="/resume" className="hover:text-emerald-400 transition-colors">Resume</Link>
+            <a 
+              href="/Akintayo_Haleem_Opeyemi_Resume.pdf" 
+              download="Akintayo_Haleem_Opeyemi_Resume.pdf" 
+              className="hover:text-emerald-400 transition-colors flex items-center gap-1"
+            >
+              <Download size={12} />
+              <span>Download CV</span>
+            </a>
+          </div>
         </div>
 
         {/* Center/Right: Actions & Social Links */}

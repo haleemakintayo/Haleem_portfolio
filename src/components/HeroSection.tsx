@@ -31,7 +31,7 @@ export default function BentoHero() {
           </div>
 
           {/* Actions & Social Links Row */}
-          <div className="mt-10 pt-6 border-t border-white/[0.06] flex flex-wrap items-center gap-4">
+          <div className="mt-10 pt-6 border-t border-white/[0.06] flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
               className="px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm transition-all shadow-[0_0_20px_rgba(52,211,153,0.3)] active:scale-95 flex items-center gap-2"
@@ -39,6 +39,14 @@ export default function BentoHero() {
               <span>Contact me</span>
               <ArrowUpRight size={16} />
             </a>
+
+            <Link
+              to="/resume"
+              className="px-5 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-white font-medium text-sm transition-all active:scale-95 flex items-center gap-2"
+            >
+              <span>Resume & CV</span>
+              <ArrowUpRight size={14} className="text-emerald-400" />
+            </Link>
 
             {/* Social Icons */}
             <div className="flex items-center gap-2">

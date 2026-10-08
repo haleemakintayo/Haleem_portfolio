@@ -8,6 +8,8 @@ import { GridPattern } from '@/registry/magicui/grid-pattern';
 import { cn } from '@/lib/utils';
 import BentoHero from './components/HeroSection';
 import Projects from './pages/Projects';
+import ProjectDetails from './pages/ProjectDetails';
+import Resume from './pages/Resume';
 import ExperienceTimeline from './components/ExperienceTimeline';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
@@ -59,6 +61,26 @@ function ProjectsPage() {
   return (
     <>
       <Projects />
+      <Footer />
+    </>
+  );
+}
+
+// Project Details Route with Footer
+function ProjectDetailsPage() {
+  return (
+    <>
+      <ProjectDetails />
+      <Footer />
+    </>
+  );
+}
+
+// Resume Route with Footer
+function ResumePage() {
+  return (
+    <>
+      <Resume />
       <Footer />
     </>
   );
@@ -122,7 +144,9 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/projects/:id" element={<ProjectDetailsPage />} />
                 <Route path="/experience" element={<ExperiencePage />} />
+                <Route path="/resume" element={<ResumePage />} />
                 <Route path="*" element={<HomePage />} />
               </Routes>
             </main>

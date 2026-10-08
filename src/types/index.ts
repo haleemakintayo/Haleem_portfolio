@@ -1,3 +1,8 @@
+export interface ProjectFeature {
+  title: string;
+  description: string;
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -10,6 +15,14 @@ export interface ProjectItem {
   tag?: string;
   imageUrl?: string;
   screenshots?: string[];
+  overview?: string;
+  challenge?: string;
+  solution?: string;
+  features?: ProjectFeature[];
+  databaseEntities?: string[];
+  architecturePoints?: string[];
+  role?: string;
+  timeline?: string;
 }
 
 export interface ExperienceItem {

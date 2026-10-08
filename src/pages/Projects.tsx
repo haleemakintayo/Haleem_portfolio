@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowUpRight, 
@@ -16,7 +17,7 @@ import { PROJECTS, PERSONAL_INFO } from '../data/PortfolioData';
 import type { ProjectItem } from '../types';
 import ProjectsShowcase from '../components/ProjectsShowcase';
 
-const CATEGORIES = ["All", "AI & Automation", "Fintech", "E-Commerce", "Commercial", "EdTech"] as const;
+const CATEGORIES = ["All", "Fandom & Web", "AI & Automation", "Fintech", "E-Commerce", "Commercial", "EdTech"] as const;
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -36,6 +37,8 @@ export default function Projects() {
         return <ShoppingBag size={15} className="text-emerald-400" />;
       case "EdTech":
         return <GraduationCap size={15} className="text-emerald-400" />;
+      case "Fandom & Web":
+        return <Sparkles size={15} className="text-emerald-400" />;
       default:
         return <Layers size={15} className="text-emerald-400" />;
     }
@@ -193,20 +196,25 @@ export default function Projects() {
 
                     {/* Optional Screenshot Preview for Grid View */}
                     {project.imageUrl && (
-                      <div className="mb-4 rounded-2xl overflow-hidden border border-white/[0.08] bg-[#050505] aspect-[16/9] relative group-hover:border-white/20 transition-colors">
+                      <Link
+                        to={`/projects/${project.id}`}
+                        className="block mb-4 rounded-2xl overflow-hidden border border-white/[0.08] bg-[#050505] aspect-[16/9] relative group-hover:border-white/20 transition-colors"
+                      >
                         <img 
                           src={project.imageUrl} 
                           alt={project.title} 
                           className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-103"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                      </div>
+                      </Link>
                     )}
 
                     {/* Project title and subtitle */}
-                    <h3 className="font-heading text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
-                      {project.title}
-                    </h3>
+                    <Link to={`/projects/${project.id}`} className="block">
+                      <h3 className="font-heading text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
+                        {project.title}
+                      </h3>
+                    </Link>
                     {project.subtitle && (
                       <p className="font-mono text-xs text-slate-400 mt-1 mb-3">
                         {project.subtitle}
@@ -230,7 +238,7 @@ export default function Projects() {
                     )}
                   </div>
 
-                  {/* Bottom: Tech Stack & Action button */}
+                  {/* Bottom: Tech Stack & Action buttons */}
                   <div className="pt-4 border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex flex-wrap gap-1.5">
                       {project.techStack.map((tech) => (
@@ -243,21 +251,27 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    {project.liveUrl ? (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors self-start sm:self-auto"
+                    <div className="flex items-center gap-3 self-start sm:self-auto">
+                      <Link
+                        to={`/projects/${project.id}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-emerald-400 transition-colors"
                       >
-                        <span>Launch</span>
-                        <ArrowUpRight size={14} />
-                      </a>
-                    ) : (
-                      <span className="text-[11px] font-mono text-slate-500">
-                        Production Architecture
-                      </span>
-                    )}
+                        <span>Case Study</span>
+                        <ArrowUpRight size={13} className="text-emerald-400" />
+                      </Link>
+
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-all"
+                        >
+                          <span>Launch</span>
+                          <ArrowUpRight size={13} />
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               ))}
