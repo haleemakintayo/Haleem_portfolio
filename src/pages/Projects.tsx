@@ -21,7 +21,7 @@ const CATEGORIES = ["All", "Fandom & Web", "AI & Automation", "Fintech", "E-Comm
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  const [viewMode, setViewMode] = useState<"3d" | "grid">("3d");
+  const [viewMode, setViewMode] = useState<"3d" | "grid">("grid");
 
   const filteredProjects = selectedCategory === "All"
     ? PROJECTS
