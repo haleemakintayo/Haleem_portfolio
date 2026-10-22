@@ -7,7 +7,7 @@ import fundwaveImg3 from '../assets/FundwaveSCreensht3.png';
 import visaroImg1 from '../assets/VisaroScreenshot1.png';
 import visaroImg2 from '../assets/VisaroScreenshot2.png';
 import fanhubImg1 from '../assets/Fanhubplus1.png';
-import fanhubImg2 from '../assets/Fanhubplus2.png';
+// import fanhubImg2 from '../assets/Fanhubplus2.png';
 import fanhubImg3 from '../assets/Fanhubplus3.png';
 import fanhubImg4 from '../assets/Fanhubplus4.png';
 import fanhubImg5 from '../assets/Fanhubplus5.png';
