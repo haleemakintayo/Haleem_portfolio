@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -29,18 +29,50 @@ export default function ProjectDetails() {
   const projectIndex = PROJECTS.findIndex(p => p.id === id);
   const project = PROJECTS[projectIndex];
 
+  const screenshots = project?.screenshots && project.screenshots.length > 0 
+    ? project.screenshots 
+    : project?.imageUrl 
+      ? [project.imageUrl] 
+      : [];
+
+  const nextScreenshot = useCallback(() => {
+    if (screenshots.length > 0) {
+      setSelectedScreenshotIdx((prev) => (prev + 1) % screenshots.length);
+    }
+  }, [screenshots.length]);
+
+  const prevScreenshot = useCallback(() => {
+    if (screenshots.length > 0) {
+      setSelectedScreenshotIdx((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+    }
+  }, [screenshots.length]);
+
+  useEffect(() => {
+    setSelectedScreenshotIdx(0);
+    setIsLightboxOpen(false);
+  }, [id]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isLightboxOpen) {
+        setIsLightboxOpen(false);
+      } else if (e.key === 'ArrowRight') {
+        nextScreenshot();
+      } else if (e.key === 'ArrowLeft') {
+        prevScreenshot();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLightboxOpen, nextScreenshot, prevScreenshot]);
+
   if (!project) {
     return <Navigate to="/projects" replace />;
   }
 
   const prevProject = projectIndex > 0 ? PROJECTS[projectIndex - 1] : PROJECTS[PROJECTS.length - 1];
   const nextProject = projectIndex < PROJECTS.length - 1 ? PROJECTS[projectIndex + 1] : PROJECTS[0];
-
-  const screenshots = project.screenshots && project.screenshots.length > 0 
-    ? project.screenshots 
-    : project.imageUrl 
-      ? [project.imageUrl] 
-      : [];
 
   const getCategoryIcon = (tag?: string) => {
     switch (tag) {
@@ -59,23 +91,8 @@ export default function ProjectDetails() {
     }
   };
 
-  const nextScreenshot = () => {
-    if (screenshots.length > 0) {
-      setSelectedScreenshotIdx((prev) => (prev + 1) % screenshots.length);
-    }
-  };
-
-  const prevScreenshot = () => {
-    if (screenshots.length > 0) {
-      setSelectedScreenshotIdx((prev) => (prev - 1 + screenshots.length) % screenshots.length);
-    }
-  };
-
   return (
     <div className="relative min-h-[calc(100vh-4rem)] px-4 py-10 md:px-8 max-w-5xl mx-auto w-full">
-      {/* Background ambient lighting */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-emerald-500/10 blur-[160px] rounded-full pointer-events-none" />
-
       {/* Back Navigation Bar */}
       <div className="relative z-10 mb-8 flex items-center justify-between">
         <Link
@@ -171,9 +188,11 @@ export default function ProjectDetails() {
               </span>
             </h2>
             <button
+              type="button"
               onClick={() => setIsLightboxOpen(true)}
-              className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] text-slate-400 hover:text-white border border-white/[0.06] transition-colors"
+              className="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] text-slate-400 hover:text-white border border-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
               title="Expand full screen"
+              aria-label="Expand full-screen preview"
             >
               <Maximize2 size={16} />
             </button>
@@ -197,15 +216,17 @@ export default function ProjectDetails() {
             {screenshots.length > 1 && (
               <>
                 <button
+                  type="button"
                   onClick={prevScreenshot}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/70 hover:bg-black/90 border border-white/10 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/75 hover:bg-black/90 border border-white/15 text-white backdrop-blur-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-opacity"
                   aria-label="Previous screenshot"
                 >
                   <ChevronLeft size={20} />
                 </button>
                 <button
+                  type="button"
                   onClick={nextScreenshot}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/70 hover:bg-black/90 border border-white/10 text-white backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/75 hover:bg-black/90 border border-white/15 text-white backdrop-blur-md opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-opacity"
                   aria-label="Next screenshot"
                 >
                   <ChevronRight size={20} />
@@ -216,18 +237,27 @@ export default function ProjectDetails() {
 
           {/* Thumbnails Row */}
           {screenshots.length > 1 && (
-            <div className="flex items-center gap-2 mt-4 overflow-x-auto pb-2">
+            <div className="flex items-center gap-2 mt-4 overflow-x-auto pb-2 no-scrollbar">
               {screenshots.map((img, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={() => setSelectedScreenshotIdx(idx)}
-                  className={`relative flex-shrink-0 w-20 sm:w-24 aspect-[16/10] rounded-xl overflow-hidden border transition-all ${
+                  aria-label={`View screenshot ${idx + 1}`}
+                  aria-current={selectedScreenshotIdx === idx ? 'true' : undefined}
+                  className={`relative flex-shrink-0 w-20 sm:w-24 aspect-[16/10] rounded-xl overflow-hidden border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                     selectedScreenshotIdx === idx
                       ? "border-emerald-400 ring-2 ring-emerald-400/30 shadow-lg scale-102"
                       : "border-white/[0.08] opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <img src={img} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover object-top" />
+                  <img 
+                    src={img} 
+                    alt={`Thumb ${idx + 1}`} 
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover object-top" 
+                  />
                 </button>
               ))}
             </div>
@@ -239,6 +269,9 @@ export default function ProjectDetails() {
       <AnimatePresence>
         {isLightboxOpen && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${project.title} full-screen preview`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -246,8 +279,10 @@ export default function ProjectDetails() {
             onClick={() => setIsLightboxOpen(false)}
           >
             <button
+              type="button"
               onClick={() => setIsLightboxOpen(false)}
-              className="absolute top-6 right-6 p-2 rounded-full bg-white/[0.1] hover:bg-white/[0.2] text-white transition-colors"
+              aria-label="Close full-screen preview"
+              className="absolute top-6 right-6 p-2.5 rounded-full bg-white/[0.1] hover:bg-white/[0.2] text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
             >
               <X size={24} />
             </button>
@@ -305,7 +340,7 @@ export default function ProjectDetails() {
               >
                 <div className="flex items-center gap-2 mb-2 text-white font-semibold text-base font-heading">
                   <CheckCircle2 size={16} className="text-emerald-400 flex-shrink-0" />
-                  <h4>{feature.title}</h4>
+                  <h3>{feature.title}</h3>
                 </div>
                 <p className="text-xs sm:text-sm text-[#8a94a6] leading-relaxed pl-6">
                   {feature.description}
@@ -365,7 +400,7 @@ export default function ProjectDetails() {
           to={`/projects/${prevProject.id}`}
           className="group flex flex-col items-start p-4 rounded-2xl bg-[#0a0a0c]/80 border border-white/[0.06] hover:border-white/[0.18] transition-all max-w-[45%]"
         >
-          <span className="text-[10px] font-mono uppercase text-slate-500 flex items-center gap-1 group-hover:text-emerald-400 transition-colors">
+          <span className="text-[10px] font-mono uppercase text-slate-400 flex items-center gap-1 group-hover:text-emerald-400 transition-colors">
             <ChevronLeft size={12} /> Previous Project
           </span>
           <span className="font-heading text-sm sm:text-base font-bold text-white truncate w-full mt-1">
@@ -377,7 +412,7 @@ export default function ProjectDetails() {
           to={`/projects/${nextProject.id}`}
           className="group flex flex-col items-end p-4 rounded-2xl bg-[#0a0a0c]/80 border border-white/[0.06] hover:border-white/[0.18] transition-all max-w-[45%] text-right"
         >
-          <span className="text-[10px] font-mono uppercase text-slate-500 flex items-center gap-1 group-hover:text-emerald-400 transition-colors">
+          <span className="text-[10px] font-mono uppercase text-slate-400 flex items-center gap-1 group-hover:text-emerald-400 transition-colors">
             Next Project <ChevronRight size={12} />
           </span>
           <span className="font-heading text-sm sm:text-base font-bold text-white truncate w-full mt-1">

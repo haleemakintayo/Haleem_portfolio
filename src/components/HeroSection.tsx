@@ -63,7 +63,7 @@ export default function BentoHero() {
               </a>
 
               <a
-                href="https://linkedin.com"
+                href={PERSONAL_INFO.linkedin}
                 target="_blank"
                 rel="noreferrer"
                 className="h-10 w-10 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/[0.08] text-slate-300 hover:text-white flex items-center justify-center transition-all active:scale-95"
@@ -146,33 +146,23 @@ export default function BentoHero() {
                     <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider block mb-1">
                       {project.tag}
                     </span>
-                    <h3 className="font-heading text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
-                      {project.title}
-                    </h3>
+                    <Link to={`/projects/${project.id}`} className="block">
+                      <h3 className="font-heading text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
+                        {project.title}
+                      </h3>
+                    </Link>
                     <p className="text-xs font-mono text-slate-400 mt-1">
                       {project.subtitle}
                     </p>
                   </div>
 
-                  {project.liveUrl ? (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="h-9 w-9 rounded-full bg-white text-black hover:bg-emerald-400 flex items-center justify-center transition-all shrink-0 active:scale-95 shadow-md"
-                      aria-label={`Open ${project.title}`}
-                    >
-                      <ArrowUpRight size={16} />
-                    </a>
-                  ) : (
-                    <Link
-                      to="/projects"
-                      className="h-9 w-9 rounded-full bg-white/[0.08] hover:bg-emerald-400 hover:text-black text-white flex items-center justify-center transition-all shrink-0 active:scale-95"
-                      aria-label={`View details for ${project.title}`}
-                    >
-                      <ArrowUpRight size={16} />
-                    </Link>
-                  )}
+                  <Link
+                    to={`/projects/${project.id}`}
+                    className="h-9 w-9 rounded-full bg-white/[0.08] hover:bg-emerald-400 hover:text-black text-white flex items-center justify-center transition-all shrink-0 active:scale-95"
+                    aria-label={`View case study for ${project.title}`}
+                  >
+                    <ArrowUpRight size={16} />
+                  </Link>
                 </div>
 
                 <p className="text-xs sm:text-sm text-[#8a94a6] leading-relaxed mb-4">

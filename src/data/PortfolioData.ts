@@ -20,6 +20,9 @@ export const PERSONAL_INFO = {
   name: "Akintayo Haleem Opeyemi",
   role: "Full-Stack Developer & Junior AI Engineer",
   email: "haleemakintayo@gmail.com",
+  linkedin: "https://www.linkedin.com/in/haleemakintayo/",
+  github: "https://github.com/haleemakintayo",
+  twitter: "https://x.com/haleemakintayo",
   education: {
     school: "Olabisi Onabanjo University, Ago-Iwoye Ogun, NG",
     degree: "Bachelor of Science in Computer Science",
@@ -125,6 +128,7 @@ export const PROJECTS: ProjectItem[] = [
     points: [
       "Engineered backend architecture to verify and process transactions seamlessly via webhooks.",
       "Integrated autonomous conversational workflows for hands-free order processing.",
+      "Awarded prototype development grant funding from Project I2M (Innovation to Market) following successful live pilot testing.",
     ],
     techStack: ["FastAPI", "Python", "LLMs", "PostgreSQL", "Webhooks"],
     tag: "AI & Automation",
@@ -335,8 +339,8 @@ export const EXPERIENCES: ExperienceItem[] = [
 
 export const HONORS: HonorItem[] = [
   {
-    title:" 1st Runner Up (African Entellignce Hub Hackathon) ",
-    organization: "Deep Learning Indaba (DLI 2026)",
+    title: "2nd Place — African Entelligence Lab Prediction Game",
+    organization: "Deep Learning Indaba (2026)",
   },
   {
     title: "1st Place (Faculty Level)",
@@ -349,5 +353,9 @@ export const HONORS: HonorItem[] = [
   {
     title: "Campus Community Ambassador & Co-Lead",
     organization: "Data Science Nigeria",
+  },
+  {
+    title: "Research Team Member",
+    organization: "RAIN (Robotics & AI Nigeria), OOU",
   },
 ];

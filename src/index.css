@@ -8,16 +8,16 @@
 }
 
 :root {
-  /* Theme Colors — Dark Obsidian with Mint/Teal Accent */
+  /* Theme Colors — Dark Obsidian with Emerald Accent */
   --bg-primary: #050505;
   --bg-surface: #0a0a0c;
-  --text-primary: #ffffff;
+  --text-primary: #ededed;
   --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --color-accent: #2dd4bf;
-  --color-accent-glow: rgba(45, 212, 191, 0.15);
+  --text-muted: #8a94a6;
+  --color-accent: #34d399;
+  --color-accent-glow: rgba(52, 211, 153, 0.15);
 
-  /* Motion tokens — shared scale from transitions.dev */
+  /* Motion tokens */
   --duration-stagger: 40ms;
   --duration-micro: 80ms;
   --duration-quick: 150ms;
@@ -29,28 +29,6 @@
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: ease-in-out;
   --ease-out: ease-out;
-  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
-
-  /* Tabs sliding tokens */
-  --tabs-dur: var(--duration-fast);
-  --tabs-ease: var(--ease-smooth-out);
-  --tabs-text-muted: #8a94a6;
-  --tabs-text-active: #ffffff;
-  --tabs-bar-bg: rgba(10, 10, 12, 0.7);
-  --tabs-pill-bg: rgba(22, 22, 28, 0.85);
-
-  /* Menu dropdown tokens */
-  --dropdown-open-dur: var(--duration-fast);
-  --dropdown-close-dur: var(--duration-quick);
-  --dropdown-pre-scale: 0.97;
-  --dropdown-closing-scale: 0.99;
-  --dropdown-ease: var(--ease-smooth-out);
-
-  /* Icon swap tokens */
-  --icon-swap-dur: var(--duration-fast);
-  --icon-swap-blur: 2px;
-  --icon-swap-start-scale: 0.25;
-  --icon-swap-ease: ease-in-out;
 }
 
 @layer base {
@@ -59,6 +37,8 @@
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(52, 211, 153, 0.25) #050505;
   }
 
   body {
@@ -75,150 +55,62 @@
     font-family: var(--font-mono);
   }
 
-  @media (pointer: fine) {
+  @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
     *, *::before, *::after, a, button, input, textarea, select {
       cursor: none !important;
     }
+
+    iframe, .native-cursor, .native-cursor * {
+      cursor: auto !important;
+    }
+
+    .native-cursor a, .native-cursor button {
+      cursor: pointer !important;
+    }
   }
 
-  /* Completely hide visible scrollbars across all browsers */
-  html, body, * {
-    -ms-overflow-style: none !important; /* IE and Edge */
-    scrollbar-width: none !important; /* Firefox */
+  /* Thin dark/emerald scrollbar on root viewport */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
   }
 
-  *::-webkit-scrollbar {
-    display: none !important;
-    width: 0px !important;
-    height: 0px !important;
-    background: transparent !important;
+  html::-webkit-scrollbar-track,
+  body::-webkit-scrollbar-track {
+    background: #050505;
+  }
+
+  html::-webkit-scrollbar-thumb,
+  body::-webkit-scrollbar-thumb {
+    background: rgba(52, 211, 153, 0.25);
+    border-radius: 9999px;
+  }
+
+  html::-webkit-scrollbar-thumb:hover,
+  body::-webkit-scrollbar-thumb:hover {
+    background: rgba(52, 211, 153, 0.45);
   }
 }
 
-/* ─── Transitions.dev: Tabs sliding ───────────────────────────── */
-.t-tabs {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 3px;
-  border-radius: 9999px;
-  background: var(--tabs-bar-bg);
-  border: 1px solid rgba(51, 65, 85, 0.5);
-}
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
-.t-tab {
-  position: relative;
-  appearance: none;
-  border: 0;
-  background: transparent;
-  height: 32px;
-  padding: 4px 14px;
-  color: var(--tabs-text-muted);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 9999px;
-  z-index: 1;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: color var(--tabs-dur) var(--tabs-ease);
-}
-
-.t-tab:hover,
-.t-tab[aria-selected="true"] {
-  color: var(--tabs-text-active);
-}
-
-.t-tabs-pill {
-  position: absolute;
-  top: 3px;
-  left: 0;
-  height: 32px;
-  width: 0;
-  background: var(--tabs-pill-bg);
-  border-radius: 9999px;
-  border: 1px solid rgba(59, 130, 246, 0.25);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
-  transform: translateX(0);
-  transition:
-    transform var(--tabs-dur) var(--tabs-ease),
-    width var(--tabs-dur) var(--tabs-ease);
-  will-change: transform, width;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ─── Transitions.dev: Menu dropdown ─────────────────────────── */
-.t-dropdown {
-  transform-origin: top center;
-  transform: scale(var(--dropdown-pre-scale));
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--dropdown-open-dur) var(--dropdown-ease),
-    opacity var(--dropdown-open-dur) var(--dropdown-ease);
-  will-change: transform, opacity;
-}
-
-.t-dropdown[data-origin="top-right"]     { transform-origin: top right; }
-.t-dropdown[data-origin="top-center"]    { transform-origin: top center; }
-.t-dropdown[data-origin="top-left"]      { transform-origin: top left; }
-
-.t-dropdown.is-open {
-  transform: scale(1);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.t-dropdown.is-closing {
-  transform: scale(var(--dropdown-closing-scale));
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--dropdown-close-dur) var(--dropdown-ease),
-    opacity var(--dropdown-close-dur) var(--dropdown-ease);
-}
-
-/* ─── Transitions.dev: Icon swap ─────────────────────────────── */
-.t-icon-swap {
-  position: relative;
-  display: inline-grid;
-}
-
-.t-icon-swap .t-icon {
-  grid-area: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:
-    opacity var(--icon-swap-dur) var(--icon-swap-ease),
-    filter var(--icon-swap-dur) var(--icon-swap-ease),
-    transform var(--icon-swap-dur) var(--icon-swap-ease);
-  will-change: opacity, filter, transform;
-}
-
-.t-icon-swap[data-state="a"] .t-icon[data-icon="a"],
-.t-icon-swap[data-state="b"] .t-icon[data-icon="b"] {
-  opacity: 1;
-  filter: blur(0);
-  transform: scale(1);
-}
-
-.t-icon-swap[data-state="a"] .t-icon[data-icon="b"],
-.t-icon-swap[data-state="b"] .t-icon[data-icon="a"] {
-  opacity: 0;
-  filter: blur(var(--icon-swap-blur));
-  transform: scale(var(--icon-swap-start-scale));
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .t-tabs-pill,
-  .t-tab,
-  .t-dropdown,
-  .t-icon-swap .t-icon {
-    transition: none !important;
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-pulse,
+  .animate-ping {
+    animation: none !important;
   }
 }

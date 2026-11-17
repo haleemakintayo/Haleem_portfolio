@@ -4,14 +4,13 @@ import { ArrowLeft, Download, ExternalLink, FileText, Sparkles, CheckCircle2, Gr
 import { PERSONAL_INFO, SKILLS, EXPERIENCES, HONORS } from '../data/PortfolioData';
 
 export default function Resume() {
-  const [activeTab, setActiveTab] = useState<'preview' | 'structured'>('preview');
+  const [activeTab, setActiveTab] = useState<'preview' | 'structured'>(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 'structured' : 'preview'
+  );
   const resumePdfPath = '/Akintayo_Haleem_Opeyemi_Resume.pdf';
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] px-4 py-10 md:px-8 max-w-5xl mx-auto w-full">
-      {/* Ambient background glow */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-emerald-500/10 blur-[160px] rounded-full pointer-events-none" />
-
       {/* Top Header / Actions Bar */}
       <div className="relative z-10 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <Link
@@ -96,7 +95,7 @@ export default function Resume() {
       <div className="relative z-10">
         {activeTab === 'preview' ? (
           /* Live PDF Embedded Viewer */
-          <div className="rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-3 sm:p-5 shadow-2xl overflow-hidden">
+          <div className="native-cursor rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-3 sm:p-5 shadow-2xl overflow-hidden">
             <div className="w-full h-[75vh] sm:h-[85vh] rounded-2xl overflow-hidden bg-[#050505] border border-white/[0.06]">
               <iframe
                 src={`${resumePdfPath}#toolbar=1&navpanes=0`}
@@ -104,7 +103,7 @@ export default function Resume() {
                 className="w-full h-full border-0"
               />
             </div>
-            <div className="mt-3 flex items-center justify-between px-2 text-xs font-mono text-slate-500">
+            <div className="mt-3 flex items-center justify-between px-2 text-xs font-mono text-slate-400">
               <span>PDF Viewer</span>
               <a
                 href={resumePdfPath}
@@ -124,12 +123,12 @@ export default function Resume() {
             <div className="rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 shadow-xl">
               <div className="flex items-center gap-2 mb-4 text-white font-heading text-xl font-bold">
                 <GraduationCap size={18} className="text-emerald-400" />
-                <h3>Education</h3>
+                <h2>Education</h2>
               </div>
               <div className="p-4 rounded-2xl bg-[#050505] border border-white/[0.06]">
-                <h4 className="font-heading text-base font-bold text-white">
+                <h3 className="font-heading text-base font-bold text-white">
                   {PERSONAL_INFO.education.school}
-                </h4>
+                </h3>
                 <p className="text-xs sm:text-sm text-emerald-400 mt-0.5">
                   {PERSONAL_INFO.education.degree}
                 </p>
@@ -143,7 +142,7 @@ export default function Resume() {
             <div className="rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 shadow-xl">
               <div className="flex items-center gap-2 mb-4 text-white font-heading text-xl font-bold">
                 <CheckCircle2 size={18} className="text-emerald-400" />
-                <h3>Technical Competencies</h3>
+                <h2>Technical Competencies</h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {SKILLS.map((category) => (
@@ -170,15 +169,15 @@ export default function Resume() {
             <div className="rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 shadow-xl">
               <div className="flex items-center gap-2 mb-4 text-white font-heading text-xl font-bold">
                 <Briefcase size={18} className="text-emerald-400" />
-                <h3>Work Experience</h3>
+                <h2>Work Experience</h2>
               </div>
               <div className="space-y-4">
                 {EXPERIENCES.map((exp, idx) => (
                   <div key={idx} className="p-5 rounded-2xl bg-[#050505] border border-white/[0.06]">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                      <h4 className="font-heading text-base font-bold text-white">
+                      <h3 className="font-heading text-base font-bold text-white">
                         {exp.role} · <span className="text-emerald-400">{exp.company}</span>
-                      </h4>
+                      </h3>
                       <span className="text-xs font-mono text-slate-400">
                         {exp.period}
                       </span>
@@ -209,7 +208,7 @@ export default function Resume() {
               <div className="rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 shadow-xl">
                 <div className="flex items-center gap-2 mb-4 text-white font-heading text-xl font-bold">
                   <Award size={18} className="text-emerald-400" />
-                  <h3>Leadership & Honors</h3>
+                  <h2>Leadership & Honors</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {HONORS.map((h, i) => (

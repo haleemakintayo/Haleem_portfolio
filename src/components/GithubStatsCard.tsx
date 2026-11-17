@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { Star, GitFork, Code2, Loader2, ArrowUpRight } from 'lucide-react';
 
 interface GithubStats {
-  publicRepos: number;
-  totalStars: number;
+  publicRepos: number | string;
+  totalStars: number | string;
   topLanguages: string[];
+  isFallback?: boolean;
 }
 
 interface GithubRepo {
@@ -17,16 +18,42 @@ interface GithubStatsCardProps {
   username?: string;
 }
 
+const CACHE_TTL_MS = 30 * 60 * 1000;
+
 export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubStatsCardProps) {
   const [stats, setStats] = useState<GithubStats | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
+    let isMounted = true;
+    const cacheKey = `github_stats_${username}`;
+
+    function readCache(allowStale = false): GithubStats | null {
+      try {
+        const raw = sessionStorage.getItem(cacheKey);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw) as { data: GithubStats; timestamp: number };
+        if (allowStale || Date.now() - parsed.timestamp < CACHE_TTL_MS) {
+          return parsed.data;
+        }
+      } catch {
+        // Ignore storage errors
+      }
+      return null;
+    }
+
     async function fetchGithubData() {
+      const fresh = readCache(false);
+      if (fresh) {
+        if (isMounted) {
+          setStats(fresh);
+          setLoading(false);
+        }
+        return;
+      }
+
       try {
         setLoading(true);
-        setError(false);
 
         // Fetch user public repos (up to 100)
         const reposRes = await fetch(
@@ -53,22 +80,51 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
           .slice(0, 3)
           .map(([lang]) => lang);
 
-        setStats({
+        const nextStats: GithubStats = {
           publicRepos: repos.length,
           totalStars,
           topLanguages,
-        });
+        };
+
+        try {
+          sessionStorage.setItem(
+            cacheKey,
+            JSON.stringify({ data: nextStats, timestamp: Date.now() })
+          );
+        } catch {
+          // Ignore storage quota errors
+        }
+
+        if (isMounted) {
+          setStats(nextStats);
+        }
       } catch (err) {
         console.error('GitHub API error:', err);
-        setError(true);
+        const stale = readCache(true);
+        if (isMounted) {
+          setStats(
+            stale || {
+              publicRepos: '—',
+              totalStars: '—',
+              topLanguages: ['Python', 'TypeScript', 'JavaScript'],
+              isFallback: true,
+            }
+          );
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     if (username) {
       fetchGithubData();
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [username]);
 
   return (
@@ -99,14 +155,14 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
         </p>
       </div>
 
-      {/* Body: Loading / Error / Content */}
+      {/* Body: Loading / Content */}
       {loading ? (
-        <div className="my-6 flex items-center justify-center gap-2 text-slate-500 text-xs font-mono py-4">
+        <div className="my-6 flex items-center justify-center gap-2 text-slate-400 text-xs font-mono py-4">
           <Loader2 size={15} className="animate-spin text-emerald-400" />
           <span>Fetching stats...</span>
         </div>
-      ) : error || !stats ? (
-        <div className="my-6 text-xs font-mono text-slate-500 text-center py-4">
+      ) : !stats ? (
+        <div className="my-6 text-xs font-mono text-slate-400 text-center py-4">
           Activity metrics temporarily unavailable
         </div>
       ) : (
@@ -114,7 +170,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
           {/* Numeric Counters */}
           <div className="grid grid-cols-2 gap-2.5">
             <div className="p-3 rounded-2xl bg-[#050505] border border-white/[0.06]">
-              <div className="flex items-center gap-1.5 text-slate-500 text-[10px] font-mono">
+              <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-mono">
                 <GitFork size={12} className="text-emerald-400" />
                 <span>REPOSITORIES</span>
               </div>
@@ -124,7 +180,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
             </div>
 
             <div className="p-3 rounded-2xl bg-[#050505] border border-white/[0.06]">
-              <div className="flex items-center gap-1.5 text-slate-500 text-[10px] font-mono">
+              <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-mono">
                 <Star size={12} className="text-amber-400" />
                 <span>STARS</span>
               </div>
@@ -137,7 +193,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
           {/* Top Languages */}
           {stats.topLanguages.length > 0 && (
             <div className="pt-1">
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-500 mb-1.5">
+              <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 mb-1.5">
                 <Code2 size={12} className="text-emerald-400" />
                 <span>TOP STACKS</span>
               </div>
@@ -153,6 +209,12 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
               </div>
             </div>
           )}
+
+          {stats.isFallback && (
+            <p className="text-[11px] font-mono text-slate-400">
+              Showing profile stack (live API rate-limited)
+            </p>
+          )}
         </div>
       )}
 
@@ -163,7 +225,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
         rel="noopener noreferrer"
         className="text-[11px] font-mono text-slate-400 hover:text-white transition-colors flex items-center justify-between pt-3 mt-3 border-t border-white/[0.06] group/link"
       >
-        <span className="text-slate-500 group-hover/link:text-slate-300">@{username}</span>
+        <span className="text-slate-400 group-hover/link:text-slate-300">@{username}</span>
         <span className="text-emerald-400 flex items-center gap-1">
           <span>View Profile</span>
           <ArrowUpRight size={12} />

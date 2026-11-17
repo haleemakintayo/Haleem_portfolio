@@ -12,10 +12,11 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
   const maxBounce = 60; 
   const baseBarH = 16;
   const wavePeakH = 48; 
+  const maxBarH = baseBarH + wavePeakH;
 
   const { bars, ballX, ballY, ballScaleX, ballScaleY, times } = useMemo(() => {
     const barsData = Array.from({ length: numBars }).map(() => ({ 
-      heights: [] as string[],
+      scales: [] as number[],
       colors: [] as string[],
     }));
     const bX: string[] = [];
@@ -62,7 +63,7 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
         }
         
         const bar_h = baseBarH + wave_val * wavePeakH - indent;
-        barsData[i].heights.push(`${Math.max(4, bar_h)}px`); 
+        barsData[i].scales.push(Math.max(4, bar_h) / maxBarH); 
         
         // Colors for Light / Dark Theme
         const isDark = theme === 'dark';
@@ -90,9 +91,13 @@ export function WavePhysicsLoader({ theme = 'dark' }: { theme?: 'light' | 'dark'
           <motion.div
             key={i}
             className="w-3 rounded-full origin-bottom"
-            style={{ height: '16px', backgroundColor: theme === 'dark' ? 'rgb(39, 39, 42)' : 'rgb(228, 228, 231)' }}
+            style={{
+              height: `${maxBarH}px`,
+              transformOrigin: 'bottom center',
+              backgroundColor: theme === 'dark' ? 'rgb(39, 39, 42)' : 'rgb(228, 228, 231)',
+            }}
             animate={{
-              height: bar.heights,
+              scaleY: bar.scales,
               backgroundColor: bar.colors,
             }}
             transition={{
@@ -175,7 +180,7 @@ export default function Loader({ duration = 2000, onComplete }: LoaderProps) {
         filter: 'blur(8px)',
         transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } 
       }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050505] text-white select-none overflow-hidden"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050505] text-white select-none overflow-hidden"
     >
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -216,7 +221,7 @@ export default function Loader({ duration = 2000, onComplete }: LoaderProps) {
           className="flex flex-col items-center space-y-2 w-48"
         >
           <div className="flex items-center justify-between w-full text-xs font-mono text-[#8a94a6]">
-            <span className="tracking-widest uppercase text-[10px] text-slate-500">Loading</span>
+            <span className="tracking-widest uppercase text-[10px] text-slate-400">Loading</span>
             <span className="tabular-nums font-semibold text-emerald-400">{percentage}%</span>
           </div>
 

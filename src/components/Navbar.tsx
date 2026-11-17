@@ -81,7 +81,7 @@ export default function Navbar() {
             <button
               onClick={toggleMenu}
               type="button"
-              className="inline-flex items-center justify-center p-2 text-slate-400 hover:text-white focus:outline-none transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 transition-colors"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
@@ -121,6 +121,17 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            <div className="pt-2">
+              <a
+                href="/Akintayo_Haleem_Opeyemi_Resume.pdf"
+                download="Akintayo_Haleem_Opeyemi_Resume.pdf"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex items-center justify-center w-full gap-1.5 px-4 py-2.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 text-xs font-mono transition-all"
+              >
+                <span>Download CV</span>
+              </a>
+            </div>
           </div>
         </div>
       )}

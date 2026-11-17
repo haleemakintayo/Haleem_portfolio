@@ -18,14 +18,26 @@ export default function CustomCursor() {
   const ringY = useSpring(mouseY, { stiffness: 220, damping: 22 });
 
   useEffect(() => {
-    // Only enable custom cursor on devices with fine pointer (mouse/trackpad)
-    const mediaQuery = window.matchMedia('(pointer: fine)');
-    if (!mediaQuery.matches) return;
+    // Only enable custom cursor on devices with fine pointer and no reduced-motion preference
+    const pointerQuery = window.matchMedia('(pointer: fine)');
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!pointerQuery.matches || motionQuery.matches) return;
 
     const handleMouseMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest('iframe, .native-cursor')) {
+        setIsVisible(false);
+        return;
+      }
+
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
+
+      const isInteractive = target?.closest(
+        'a, button, input, textarea, select, [role="button"], .interactive-hover'
+      );
+      setIsHovered(!!isInteractive);
     };
 
     const handleMouseDown = () => setIsClicked(true);
@@ -34,30 +46,26 @@ export default function CustomCursor() {
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
 
-    const checkHoverable = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-
-      const isInteractive = target.closest('a, button, input, textarea, select, [role="button"], .interactive-hover');
-      setIsHovered(!!isInteractive);
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setIsVisible(false);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mousemove', checkHoverable);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
+    motionQuery.addEventListener('change', handleMotionChange);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousemove', checkHoverable);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
+      motionQuery.removeEventListener('change', handleMotionChange);
     };
-  }, [mouseX, mouseY, isVisible]);
+  }, [mouseX, mouseY]);
 
   if (!isVisible) return null;
 

@@ -46,9 +46,6 @@ export default function Projects() {
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] px-4 py-12 md:px-8 max-w-7xl mx-auto w-full">
-      {/* Background ambient lighting */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-emerald-500/10 blur-[160px] rounded-full pointer-events-none" />
-
       {/* Header section */}
       <div className="text-center max-w-2xl mx-auto mb-10 relative z-10">
         <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-xs font-mono text-emerald-400">
@@ -203,6 +200,8 @@ export default function Projects() {
                         <img 
                           src={project.imageUrl} 
                           alt={project.title} 
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-103"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />

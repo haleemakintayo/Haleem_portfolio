@@ -35,7 +35,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
     setActiveScreenshotIdx(0);
   }, [projects.length]);
 
-  const toSlide = (index: number, e?: React.MouseEvent) => {
+  const toSlide = (index: number, e?: React.MouseEvent | React.KeyboardEvent) => {
     if (e) e.stopPropagation();
     setActiveIndex(index);
     setActiveScreenshotIdx(0);
@@ -94,7 +94,10 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
               return (
                 <motion.div 
                   key={item.id}
-                  className="absolute w-[280px] sm:w-[360px] md:w-[400px] aspect-[16/10] cursor-pointer"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Select ${item.title}`}
+                  className="absolute w-[280px] sm:w-[360px] md:w-[400px] aspect-[16/10] cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                   initial={false}
                   animate={{ 
                     x: offset * 145,
@@ -106,6 +109,12 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                   transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                   style={{ zIndex: 100 - absOffset }}
                   onClick={(e) => toSlide(i, e)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toSlide(i, e);
+                    }
+                  }}
                 >
                   {item.imageUrl ? (
                     /* Screenshot Card */
@@ -115,6 +124,8 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                       <img 
                         src={item.imageUrl} 
                         alt={item.title} 
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-full object-cover object-top pointer-events-none" 
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/15 to-black/30 pointer-events-none" />
@@ -129,7 +140,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                         <span className="text-[11px] font-mono text-slate-400 truncate max-w-[160px]">
                           {item.liveUrl ? item.liveUrl.replace('https://', '') : `${item.id}.dev`}
                         </span>
-                        <span className="text-[10px] font-mono text-slate-500">
+                        <span className="text-[10px] font-mono text-slate-400">
                           0{i + 1}/0{projects.length}
                         </span>
                       </div>
@@ -172,7 +183,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                                 <Terminal size={12} />
                                 <span>Agent Pipeline</span>
                               </div>
-                              <span className="text-[9px] text-slate-500">FastAPI</span>
+                              <span className="text-[9px] text-slate-400">FastAPI</span>
                             </div>
                             <p className="text-slate-400 text-[10px]">Processing webhook orders & conversational state...</p>
                           </div>
@@ -214,18 +225,24 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
             >
               <ChevronLeft size={18} />
             </button>
-            <div className="flex gap-1.5 items-center">
+            <div className="flex items-center">
               {projects.map((_, i) => (
                 <button 
                   key={i} 
+                  type="button"
                   onClick={(e) => toSlide(i, e)}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    activeIndex === i 
-                      ? 'w-6 bg-white' 
-                      : 'w-2 bg-slate-700 hover:bg-slate-500'
-                  }`}
+                  className="p-2 min-w-[24px] min-h-[24px] flex items-center justify-center cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                   aria-label={`Go to slide ${i + 1}`}
-                />
+                  aria-current={activeIndex === i ? 'true' : undefined}
+                >
+                  <span
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      activeIndex === i 
+                        ? 'w-6 bg-white' 
+                        : 'w-2 bg-slate-600 hover:bg-slate-400'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
             <button 
@@ -254,7 +271,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                   {getCategoryIcon(activeProject.tag)}
                   <span>{activeProject.tag || 'Architecture'}</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-500">Case Study</span>
+                <span className="text-[11px] font-mono text-slate-400">Case Study</span>
               </div>
 
               {/* Screenshot gallery */}
@@ -264,21 +281,26 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                     <img 
                       src={activeProject.screenshots[activeScreenshotIdx] || activeProject.screenshots[0]} 
                       alt={`${activeProject.title} preview`} 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
                   {activeProject.screenshots.length > 1 && (
-                    <div className="p-2 bg-[#0a0a0c] border-t border-white/[0.05] flex items-center justify-between gap-2">
-                      <span className="text-[10px] font-mono text-slate-500">Views:</span>
-                      <div className="flex items-center gap-1.5">
+                    <div className="p-2.5 bg-[#0a0a0c] border-t border-white/[0.05] flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-[11px] font-mono text-slate-400">Views:</span>
+                      <div className="flex flex-wrap items-center gap-1.5">
                         {activeProject.screenshots.map((_, sIdx) => (
                           <button
                             key={sIdx}
+                            type="button"
                             onClick={() => setActiveScreenshotIdx(sIdx)}
-                            className={`px-2.5 py-0.5 rounded text-[11px] font-mono transition-all ${
+                            aria-label={`View screenshot ${sIdx + 1}`}
+                            aria-current={activeScreenshotIdx === sIdx ? 'true' : undefined}
+                            className={`px-2.5 py-1 min-w-[28px] min-h-[28px] rounded text-[11px] font-mono transition-all ${
                               activeScreenshotIdx === sIdx
                                 ? 'bg-white text-black font-semibold'
-                                : 'bg-white/[0.05] text-slate-400 hover:bg-white/[0.1]'
+                                : 'bg-white/[0.05] text-slate-400 hover:bg-white/[0.1] hover:text-white'
                             }`}
                           >
                             {sIdx + 1}
