@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Download, ExternalLink, FileText, Sparkles, CheckCircle2, GraduationCap, Briefcase, Award } from 'lucide-react';
+import { ArrowLeft, Download, ExternalLink, FileText, CheckCircle2, GraduationCap, Briefcase, Award } from 'lucide-react';
 import { PERSONAL_INFO, SKILLS, EXPERIENCES, HONORS } from '../data/PortfolioData';
 
 export default function Resume() {
@@ -36,7 +36,7 @@ export default function Resume() {
           <a
             href={resumePdfPath}
             download="Akintayo_Haleem_Opeyemi_Resume.pdf"
-            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs font-mono shadow-[0_0_16px_rgba(52,211,153,0.3)] transition-all active:scale-95"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs font-mono shadow-lg shadow-black/40 transition-all active:scale-95"
           >
             <Download size={14} />
             <span>Download PDF</span>
@@ -48,10 +48,6 @@ export default function Resume() {
       <div className="relative z-10 rounded-3xl bg-[#0a0a0c]/85 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-10 mb-8 shadow-2xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
-              <Sparkles size={13} />
-              <span>Curriculum Vitae & Credentials</span>
-            </div>
             <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
               {PERSONAL_INFO.name}
             </h1>
@@ -132,7 +128,7 @@ export default function Resume() {
                 <p className="text-xs sm:text-sm text-emerald-400 mt-0.5">
                   {PERSONAL_INFO.education.degree}
                 </p>
-                <span className="inline-block text-[11px] font-mono text-slate-400 mt-2 bg-white/[0.04] px-2.5 py-0.5 rounded border border-white/[0.06]">
+                <span className="inline-block text-xs font-mono text-slate-400 mt-2 bg-white/[0.04] px-2.5 py-0.5 rounded border border-white/[0.06]">
                   {PERSONAL_INFO.education.graduationYear}
                 </span>
               </div>
@@ -154,7 +150,7 @@ export default function Resume() {
                       {category.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
+                          className="text-xs font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
                         >
                           {skill}
                         </span>
@@ -182,17 +178,18 @@ export default function Resume() {
                         {exp.period}
                       </span>
                     </div>
-                    <ul className="space-y-1.5 my-3 pl-3 border-l-2 border-emerald-500/20">
+                    <ul className="space-y-2 my-3">
                       {exp.achievements.map((ach, i) => (
-                        <li key={i} className="text-xs sm:text-sm text-[#8a94a6] leading-relaxed">
-                          {ach}
+                        <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#8a94a6] leading-relaxed">
+                          <span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
+                          <span>{ach}</span>
                         </li>
                       ))}
                     </ul>
                     {exp.techStack && (
                       <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/[0.04]">
                         {exp.techStack.map(t => (
-                          <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.03] text-slate-400">
+                          <span key={t} className="text-xs font-mono px-2 py-0.5 rounded bg-white/[0.03] text-slate-400">
                             {t}
                           </span>
                         ))}

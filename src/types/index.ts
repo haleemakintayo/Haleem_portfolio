@@ -3,6 +3,23 @@ export interface ProjectFeature {
   description: string;
 }
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
+export interface ProjectScreenshot {
+  src: string;
+  caption?: string;
+  alt?: string;
+}
+
+export type ProjectStatus =
+  | 'Production'
+  | 'Pilot & Grant-Backed'
+  | 'Competition Build'
+  | 'Hackathon Build';
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -12,12 +29,18 @@ export interface ProjectItem {
   techStack: string[];
   liveUrl?: string;
   githubUrl?: string;
+  demoVideoUrl?: string;
   tag?: string;
+  featured?: boolean;
+  status?: ProjectStatus;
   imageUrl?: string;
-  screenshots?: string[];
+  screenshots?: (string | ProjectScreenshot)[];
+  metrics?: ProjectMetric[];
   overview?: string;
   challenge?: string;
   solution?: string;
+  outcome?: string;
+  tradeoffs?: string[];
   features?: ProjectFeature[];
   databaseEntities?: string[];
   architecturePoints?: string[];

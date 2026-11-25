@@ -13,7 +13,7 @@ export default function Footer() {
             Haleem<span className="text-emerald-400">.dev</span>
           </div>
           <p className="text-xs sm:text-sm font-mono text-slate-400 max-w-sm">
-            Engineering scalable backends, autonomous AI agents, and intuitive web systems.
+            Full-Stack &amp; AI Engineer building Python backends, React apps, and autonomous agents.
           </p>
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-3 text-xs font-mono text-slate-400">
             <Link to="/projects" className="py-1 hover:text-emerald-400 transition-colors">Projects</Link>
@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <a
             href={`mailto:${PERSONAL_INFO.email}`}
-            className="px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs sm:text-sm transition-all shadow-[0_0_20px_rgba(52,211,153,0.3)] active:scale-95 flex items-center gap-2"
+            className="px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs sm:text-sm transition-all shadow-lg shadow-black/40 active:scale-95 flex items-center gap-2"
           >
             <Mail size={15} />
             <span>{PERSONAL_INFO.email}</span>

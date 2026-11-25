@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Bot, TrendingUp, ShoppingBag, GraduationCap, Layers, ArrowUpRight, Terminal, Sparkles } from 'lucide-react';
 import { PROJECTS } from '../data/PortfolioData';
 import type { ProjectItem } from '../types';
+import { normalizeScreenshots } from '../lib/utils';
 
 interface ProjectsShowcaseProps {
   projects?: ProjectItem[];
@@ -71,6 +72,13 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
 
   if (!activeProject) return null;
 
+  const activeScreenshots = normalizeScreenshots(
+    activeProject.screenshots,
+    activeProject.imageUrl,
+    activeProject.title
+  );
+  const currentScreenshot = activeScreenshots[activeScreenshotIdx] || activeScreenshots[0];
+
   return (
     <div className="w-full flex flex-col items-center">
       {/* Side-by-side on desktop, stacked on mobile */}
@@ -137,17 +145,17 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                           <span className="w-2 h-2 rounded-full bg-white/20" />
                           <span className="w-2 h-2 rounded-full bg-white/20" />
                         </div>
-                        <span className="text-[11px] font-mono text-slate-400 truncate max-w-[160px]">
+                        <span className="text-xs font-mono text-slate-400 truncate max-w-[160px]">
                           {item.liveUrl ? item.liveUrl.replace('https://', '') : `${item.id}.dev`}
                         </span>
-                        <span className="text-[10px] font-mono text-slate-400">
-                          0{i + 1}/0{projects.length}
+                        <span className="text-xs font-mono text-slate-400 tabular-nums">
+                          {String(i + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}
                         </span>
                       </div>
 
                       {/* Bottom title overlay */}
                       <div className="relative z-10 p-4 sm:p-5 text-left pointer-events-none">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/60 border border-white/10 text-emerald-400 text-[11px] font-mono font-medium mb-1.5 backdrop-blur-sm">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/60 border border-white/10 text-emerald-400 text-xs font-mono font-medium mb-1.5 backdrop-blur-sm">
                           {getCategoryIcon(item.tag)}
                           <span>{item.tag || 'Project'}</span>
                         </span>
@@ -168,7 +176,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                           <span className="w-2 h-2 rounded-full bg-white/20" />
                           <span className="w-2 h-2 rounded-full bg-white/20" />
                         </div>
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-slate-400 text-[10px] font-mono">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-slate-400 text-xs font-mono">
                           {getCategoryIcon(item.tag)}
                           <span>{item.tag || 'Project'}</span>
                         </span>
@@ -177,23 +185,23 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                       {/* Mockup content */}
                       <div className="my-auto relative z-10 py-2">
                         {item.id === 'bukka-ai' ? (
-                          <div className="rounded-lg bg-[#07070a] border border-white/[0.05] p-3 font-mono text-[11px] space-y-2">
+                          <div className="rounded-lg bg-[#07070a] border border-white/[0.05] p-3 font-mono text-xs space-y-1.5">
                             <div className="flex items-center justify-between text-emerald-400 font-semibold">
                               <div className="flex items-center gap-1.5">
-                                <Terminal size={12} />
-                                <span>Agent Pipeline</span>
+                                <Terminal size={13} />
+                                <span>Order &amp; Webhook Pipeline</span>
                               </div>
-                              <span className="text-[9px] text-slate-400">FastAPI</span>
+                              <span className="text-xs text-slate-400">FastAPI</span>
                             </div>
-                            <p className="text-slate-400 text-[10px]">Processing webhook orders & conversational state...</p>
+                            <p className="text-slate-400 text-xs line-clamp-2">Intent routing + idempotent payment callbacks.</p>
                           </div>
                         ) : (
-                          <div className="rounded-lg bg-[#07070a] border border-white/[0.05] p-3 font-mono text-[11px] space-y-2">
+                          <div className="rounded-lg bg-[#07070a] border border-white/[0.05] p-3 font-mono text-xs space-y-1.5">
                             <div className="flex items-center justify-between text-slate-300 font-semibold">
-                              <span>{item.tag} Architecture</span>
-                              <span className="text-[9px] text-emerald-400">REST</span>
+                              <span>{item.tag} Backend</span>
+                              <span className="text-xs text-emerald-400">REST API</span>
                             </div>
-                            <p className="text-slate-400 text-[10px] line-clamp-2">{item.description}</p>
+                            <p className="text-slate-400 text-xs line-clamp-2">{item.description}</p>
                           </div>
                         )}
                         <h3 className="font-heading text-lg sm:text-xl md:text-2xl font-bold text-white tracking-tight mt-3">
@@ -204,7 +212,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                       {/* Tech pills */}
                       <div className="flex items-center gap-1.5 flex-wrap relative z-10 pt-2.5 border-t border-white/[0.05]">
                         {item.techStack.slice(0, 4).map((tech) => (
-                          <span key={tech} className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-400 border border-white/[0.04]">
+                          <span key={tech} className="text-xs font-mono px-2 py-0.5 rounded bg-white/[0.04] text-slate-400 border border-white/[0.04]">
                             {tech}
                           </span>
                         ))}
@@ -266,38 +274,45 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
               transition={{ duration: 0.15, ease: 'easeOut' }}
               className="bg-[#0a0a0c]/80 border border-white/[0.08] rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-xl relative overflow-hidden text-left"
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-white/[0.04] border border-white/[0.08] text-emerald-400 text-[11px] font-mono rounded-full font-medium">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-white/[0.04] border border-white/[0.08] text-emerald-400 text-xs font-mono rounded-full font-medium">
                   {getCategoryIcon(activeProject.tag)}
-                  <span>{activeProject.tag || 'Architecture'}</span>
+                  <span>{activeProject.tag || 'Engineering'}</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400">Case Study</span>
+                <span className="text-xs font-mono text-slate-400">
+                  {activeProject.status || 'Case Study'}
+                </span>
               </div>
 
               {/* Screenshot gallery */}
-              {activeProject.screenshots && activeProject.screenshots.length > 0 && (
+              {activeScreenshots.length > 0 && currentScreenshot && (
                 <div className="mb-5 rounded-xl overflow-hidden border border-white/[0.06] bg-[#050505]">
                   <div className="relative aspect-[16/9] w-full overflow-hidden">
                     <img 
-                      src={activeProject.screenshots[activeScreenshotIdx] || activeProject.screenshots[0]} 
-                      alt={`${activeProject.title} preview`} 
+                      src={currentScreenshot.src} 
+                      alt={currentScreenshot.alt || `${activeProject.title} preview`} 
                       loading="lazy"
                       decoding="async"
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
-                  {activeProject.screenshots.length > 1 && (
+                  {currentScreenshot.caption && (
+                    <p className="px-3 py-2 text-xs text-slate-400 border-t border-white/[0.05] bg-[#0a0a0c]">
+                      {currentScreenshot.caption}
+                    </p>
+                  )}
+                  {activeScreenshots.length > 1 && (
                     <div className="p-2.5 bg-[#0a0a0c] border-t border-white/[0.05] flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-[11px] font-mono text-slate-400">Views:</span>
+                      <span className="text-xs font-mono text-slate-400">Views:</span>
                       <div className="flex flex-wrap items-center gap-1.5">
-                        {activeProject.screenshots.map((_, sIdx) => (
+                        {activeScreenshots.map((_, sIdx) => (
                           <button
                             key={sIdx}
                             type="button"
                             onClick={() => setActiveScreenshotIdx(sIdx)}
                             aria-label={`View screenshot ${sIdx + 1}`}
                             aria-current={activeScreenshotIdx === sIdx ? 'true' : undefined}
-                            className={`px-2.5 py-1 min-w-[28px] min-h-[28px] rounded text-[11px] font-mono transition-all ${
+                            className={`px-2.5 py-1 min-w-[28px] min-h-[28px] rounded text-xs font-mono tabular-nums transition-all ${
                               activeScreenshotIdx === sIdx
                                 ? 'bg-white text-black font-semibold'
                                 : 'bg-white/[0.05] text-slate-400 hover:bg-white/[0.1] hover:text-white'
@@ -326,10 +341,11 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                   {activeProject.description}
                 </p>
                 {activeProject.points && activeProject.points.length > 0 && (
-                  <ul className="text-xs text-slate-300 space-y-1.5 border-l-2 border-emerald-500/30 pl-3">
+                  <ul className="text-xs text-slate-300 space-y-2">
                     {activeProject.points.map((point, idx) => (
-                      <li key={idx} className="leading-relaxed">
-                        {point}
+                      <li key={idx} className="flex items-start gap-2.5 leading-relaxed">
+                        <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
+                        <span>{point}</span>
                       </li>
                     ))}
                   </ul>
@@ -338,7 +354,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
 
               <div className="flex flex-wrap gap-1.5 mb-6">
                 {activeProject.techStack.map(tech => (
-                  <span key={tech} className="px-2.5 py-0.5 text-[11px] font-mono bg-[#050505] border border-white/[0.06] text-slate-300 rounded-md">
+                  <span key={tech} className="px-2.5 py-0.5 text-xs font-mono bg-[#050505] border border-white/[0.06] text-slate-300 rounded-md">
                     {tech}
                   </span>
                 ))}
@@ -349,7 +365,7 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                   to={`/projects/${activeProject.id}`}
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-white font-medium text-xs transition-all active:scale-95 shadow-sm"
                 >
-                  <span>Explore Case Study</span>
+                  <span>Read case study</span>
                   <ArrowUpRight size={13} className="text-emerald-400" />
                 </Link>
 
@@ -371,9 +387,9 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
                     href={activeProject.liveUrl} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs shadow-md transition-all active:scale-95"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs shadow-lg shadow-black/40 transition-all active:scale-95"
                   >
-                    <span>Launch Live</span>
+                    <span>Visit live site</span>
                     <ArrowUpRight size={14} />
                   </a>
                 )}

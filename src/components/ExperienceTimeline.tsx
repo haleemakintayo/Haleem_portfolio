@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar, MapPin, Sparkles } from 'lucide-react';
+import { Briefcase, Calendar, MapPin } from 'lucide-react';
 import { EXPERIENCES, HONORS } from '../data/PortfolioData';
 
 export default function ExperienceTimeline() {
@@ -8,15 +8,11 @@ export default function ExperienceTimeline() {
       
       {/* Section Header */}
       <div className="mb-14 text-left">
-        <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
-          <Sparkles size={13} className="text-emerald-400" />
-          <span>Career Journey</span>
-        </div>
         <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
           Work Experience
         </h2>
         <p className="text-[#8a94a6] text-sm sm:text-base mt-2 max-w-2xl font-sans leading-relaxed">
-          My professional track record building scalable backends, autonomous AI agents, and production web applications.
+          Backend services, React interfaces, and REST APIs shipped across client and product teams.
         </p>
       </div>
 
@@ -32,7 +28,7 @@ export default function ExperienceTimeline() {
             className="relative group"
           >
             {/* Timeline Node Dot */}
-            <div className="absolute -left-[31px] md:-left-[47px] top-1.5 h-4 w-4 rounded-full bg-[#050505] border-2 border-slate-600 group-hover:border-emerald-400 group-hover:shadow-[0_0_12px_rgba(52,211,153,0.8)] transition-all duration-300">
+            <div className="absolute -left-[31px] md:-left-[47px] top-1.5 h-4 w-4 rounded-full bg-[#050505] border-2 border-slate-600 group-hover:border-emerald-400 transition-colors duration-300">
               <div className="absolute inset-1 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
 
@@ -67,10 +63,11 @@ export default function ExperienceTimeline() {
               </div>
 
               {/* Achievements List */}
-              <ul className="space-y-2.5 mb-6 border-l-2 border-emerald-500/20 pl-3.5">
+              <ul className="space-y-2.5 mb-6">
                 {exp.achievements.map((achievement, i) => (
-                  <li key={i} className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {achievement}
+                  <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
+                    <span>{achievement}</span>
                   </li>
                 ))}
               </ul>
@@ -81,7 +78,7 @@ export default function ExperienceTimeline() {
                   {exp.techStack.map(tech => (
                     <span 
                       key={tech} 
-                      className="px-2.5 py-0.5 rounded-lg bg-[#050505] border border-white/[0.06] text-[11px] font-mono text-slate-300"
+                      className="px-2.5 py-0.5 rounded-lg bg-[#050505] border border-white/[0.06] text-xs font-mono text-slate-300"
                     >
                       {tech}
                     </span>

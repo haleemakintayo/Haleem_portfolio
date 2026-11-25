@@ -221,7 +221,7 @@ export default function Loader({ duration = 2000, onComplete }: LoaderProps) {
           className="flex flex-col items-center space-y-2 w-48"
         >
           <div className="flex items-center justify-between w-full text-xs font-mono text-[#8a94a6]">
-            <span className="tracking-widest uppercase text-[10px] text-slate-400">Loading</span>
+            <span className="tracking-widest uppercase text-xs text-slate-400">Loading</span>
             <span className="tabular-nums font-semibold text-emerald-400">{percentage}%</span>
           </div>
 

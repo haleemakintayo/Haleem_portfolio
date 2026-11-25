@@ -144,14 +144,14 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
             </svg>
             <span>GitHub Activity</span>
           </a>
-          <span className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+          <span className="flex items-center gap-1 text-xs font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Live
           </span>
         </div>
 
         <p className="text-xs text-[#8a94a6] leading-relaxed mb-4">
-          Real-time open-source repositories, engineering contributions, and language distribution.
+          Live repositories, earned stars, and primary languages from GitHub.
         </p>
       </div>
 
@@ -170,21 +170,21 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
           {/* Numeric Counters */}
           <div className="grid grid-cols-2 gap-2.5">
             <div className="p-3 rounded-2xl bg-[#050505] border border-white/[0.06]">
-              <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-mono">
+              <div className="flex items-center gap-1.5 text-slate-400 text-xs font-mono">
                 <GitFork size={12} className="text-emerald-400" />
-                <span>REPOSITORIES</span>
+                <span>REPOS</span>
               </div>
-              <div className="text-xl font-bold text-white mt-1 font-mono">
+              <div className="text-xl font-bold text-white mt-1 font-mono tabular-nums">
                 {stats.publicRepos}
               </div>
             </div>
 
             <div className="p-3 rounded-2xl bg-[#050505] border border-white/[0.06]">
-              <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-mono">
+              <div className="flex items-center gap-1.5 text-slate-400 text-xs font-mono">
                 <Star size={12} className="text-amber-400" />
                 <span>STARS</span>
               </div>
-              <div className="text-xl font-bold text-white mt-1 font-mono">
+              <div className="text-xl font-bold text-white mt-1 font-mono tabular-nums">
                 {stats.totalStars}
               </div>
             </div>
@@ -193,7 +193,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
           {/* Top Languages */}
           {stats.topLanguages.length > 0 && (
             <div className="pt-1">
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 mb-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400 mb-1.5">
                 <Code2 size={12} className="text-emerald-400" />
                 <span>TOP STACKS</span>
               </div>
@@ -201,7 +201,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
                 {stats.topLanguages.map((lang) => (
                   <span
                     key={lang}
-                    className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
+                    className="text-xs font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
                   >
                     {lang}
                   </span>
@@ -211,7 +211,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
           )}
 
           {stats.isFallback && (
-            <p className="text-[11px] font-mono text-slate-400">
+            <p className="text-xs font-mono text-slate-400">
               Showing profile stack (live API rate-limited)
             </p>
           )}
@@ -223,7 +223,7 @@ export default function GithubStatsCard({ username = 'haleemakintayo' }: GithubS
         href={`https://github.com/${username}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[11px] font-mono text-slate-400 hover:text-white transition-colors flex items-center justify-between pt-3 mt-3 border-t border-white/[0.06] group/link"
+        className="text-xs font-mono text-slate-400 hover:text-white transition-colors flex items-center justify-between pt-3 mt-3 border-t border-white/[0.06] group/link"
       >
         <span className="text-slate-400 group-hover/link:text-slate-300">@{username}</span>
         <span className="text-emerald-400 flex items-center gap-1">

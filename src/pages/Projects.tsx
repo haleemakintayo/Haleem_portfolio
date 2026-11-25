@@ -48,15 +48,11 @@ export default function Projects() {
     <div className="relative min-h-[calc(100vh-4rem)] px-4 py-12 md:px-8 max-w-7xl mx-auto w-full">
       {/* Header section */}
       <div className="text-center max-w-2xl mx-auto mb-10 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-xs font-mono text-emerald-400">
-          <Sparkles size={13} className="text-emerald-400" />
-          <span>Engineered Systems</span>
-        </div>
         <h1 className="font-heading text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
           Selected Works
         </h1>
         <p className="font-sans text-[#8a94a6] text-sm sm:text-base leading-relaxed">
-          Swipe through recent architectures, agentic workflows, scalable APIs, and production platforms built by {PERSONAL_INFO.name}.
+          Production backends, client web apps, and AI agents with architecture notes, trade-offs, and outcomes.
         </p>
 
         {/* Filter controls & View Switcher */}
@@ -75,12 +71,12 @@ export default function Projects() {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-2 ${
                     isSelected
-                      ? "bg-emerald-500 text-black font-semibold shadow-[0_0_16px_rgba(52,211,153,0.3)]"
+                      ? "bg-emerald-500 text-black font-semibold shadow-md shadow-black/40"
                       : "bg-[#0a0a0c]/80 text-[#8a94a6] hover:text-white border border-white/[0.08] hover:border-white/[0.2]"
                   }`}
                 >
                   <span>{category}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                  <span className={`text-xs px-1.5 py-0.2 rounded-full tabular-nums ${
                     isSelected ? "bg-black/20 text-black" : "bg-white/[0.06] text-slate-400"
                   }`}>
                     {count}
@@ -156,11 +152,18 @@ export default function Projects() {
                   className="flex flex-col justify-between rounded-3xl bg-[#0a0a0c]/80 border border-white/[0.08] backdrop-blur-xl p-7 hover:border-emerald-500/30 transition-all duration-300 shadow-xl group"
                 >
                   <div>
-                    {/* Header tag & links */}
-                    <div className="flex items-center justify-between gap-4 mb-4">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium">
-                        {getCategoryIcon(project.tag)}
-                        <span>{project.tag || "Full-Stack"}</span>
+                    {/* Header tag, status & links */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-medium">
+                          {getCategoryIcon(project.tag)}
+                          <span>{project.tag || "Full-Stack"}</span>
+                        </div>
+                        {project.status && (
+                          <span className="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-300 text-xs font-mono">
+                            {project.status}
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-2">
@@ -208,15 +211,17 @@ export default function Projects() {
                       </Link>
                     )}
 
-                    {/* Project title and subtitle */}
+                    {/* Project title, subtitle & lead metric */}
                     <Link to={`/projects/${project.id}`} className="block">
                       <h3 className="font-heading text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
                         {project.title}
                       </h3>
                     </Link>
-                    {project.subtitle && (
+                    {(project.subtitle || project.metrics?.[0]) && (
                       <p className="font-mono text-xs text-slate-400 mt-1 mb-3">
                         {project.subtitle}
+                        {project.subtitle && project.metrics?.[0] ? ' · ' : ''}
+                        {project.metrics?.[0] ? `${project.metrics[0].label}: ${project.metrics[0].value}` : ''}
                       </p>
                     )}
 
@@ -227,10 +232,11 @@ export default function Projects() {
 
                     {/* Key engineering points */}
                     {project.points && project.points.length > 0 && (
-                      <ul className="space-y-2 mb-6 border-l-2 border-emerald-500/30 pl-3">
+                      <ul className="space-y-2 mb-6">
                         {project.points.map((point, index) => (
-                          <li key={index} className="text-xs text-slate-300 leading-normal">
-                            {point}
+                          <li key={index} className="flex items-start gap-2.5 text-xs text-slate-300 leading-relaxed">
+                            <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
+                            <span>{point}</span>
                           </li>
                         ))}
                       </ul>
@@ -243,19 +249,19 @@ export default function Projects() {
                       {project.techStack.map((tech) => (
                         <span
                           key={tech}
-                          className="text-[11px] font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
+                          className="text-xs font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
                         >
                           {tech}
                         </span>
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-3 self-start sm:self-auto">
+                    <div className="flex items-center gap-3 self-start sm:self-auto shrink-0">
                       <Link
                         to={`/projects/${project.id}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-emerald-400 transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-emerald-400 transition-colors py-1"
                       >
-                        <span>Case Study</span>
+                        <span>Read case study</span>
                         <ArrowUpRight size={13} className="text-emerald-400" />
                       </Link>
 
@@ -264,9 +270,9 @@ export default function Projects() {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-all"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-all"
                         >
-                          <span>Launch</span>
+                          <span>Visit live site</span>
                           <ArrowUpRight size={13} />
                         </a>
                       )}
@@ -281,17 +287,17 @@ export default function Projects() {
 
       {/* Bottom CTA Card */}
       <div className="mt-16 rounded-3xl bg-gradient-to-br from-[#0a0a0c] via-[#0a0a0c] to-emerald-950/20 border border-white/[0.08] p-8 text-center relative overflow-hidden z-10 shadow-2xl">
-        <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-2">
-          Have a project or opportunity in mind?
-        </h3>
+        <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white mb-2">
+          Hiring for a Full-Stack or AI Engineering role?
+        </h2>
         <p className="text-[#8a94a6] text-sm max-w-lg mx-auto mb-6">
-          I am currently open to full-stack and AI engineering opportunities, contracts, and collaborations.
+          Open to full-time engineering roles, backend API contracts, and AI product builds.
         </p>
         <a
           href={`mailto:${PERSONAL_INFO.email}`}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm shadow-[0_0_20px_rgba(52,211,153,0.3)] transition-all active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm shadow-lg shadow-black/40 transition-all active:scale-95"
         >
-          <span>Get in Touch</span>
+          <span>Email Haleem</span>
           <ArrowUpRight size={16} />
         </a>
       </div>

@@ -5,6 +5,9 @@ import haleemImg from '../assets/Haleem.png';
 import GithubStatsCard from './GithubStatsCard';
 
 export default function BentoHero() {
+  const featuredList = PROJECTS.filter((project) => project.featured).slice(0, 2);
+  const featuredProjects = featuredList.length > 0 ? featuredList : PROJECTS.slice(0, 2);
+
   return (
     <section className="relative min-h-[calc(100vh-4rem)] px-4 py-10 md:px-8 max-w-6xl mx-auto w-full flex flex-col gap-8 justify-center">
       {/* Dynamic Ambient Background Glows */}
@@ -16,17 +19,17 @@ export default function BentoHero() {
         {/* LEFT: Intro Bio Card (Spans 7 cols on desktop) */}
         <div className="lg:col-span-7 rounded-3xl bg-gradient-to-br from-[#0e0e12]/90 via-[#0a0a0c]/85 to-[#06140e]/40 border border-white/[0.08] backdrop-blur-xl p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden shadow-2xl">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
+            <div className="inline-flex items-center gap-2 mb-5 text-xs font-mono text-emerald-400">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Available for Full-Stack & AI Roles
+              <span>Available for Full-Stack &amp; AI Engineering roles</span>
             </div>
 
-            <h1 className="font-heading text-3xl sm:text-4xl lg:text-[46px] font-bold text-white tracking-tight leading-[1.2]">
-              Hello, I'm <span className="text-emerald-400">Haleem</span>, a Full-Stack Developer & AI Builder with 3 years of experience.
+            <h1 className="font-heading text-3xl sm:text-4xl lg:text-[44px] font-bold text-white tracking-tight leading-[1.16]">
+              Full-Stack &amp; AI Engineer shipping production backends, React apps, and autonomous agents.
             </h1>
 
             <p className="mt-6 text-[#8a94a6] text-sm sm:text-base leading-relaxed max-w-xl">
-              I care a lot about building intelligent autonomous agents, resilient backend systems, and crafting user-centric, delightful digital experiences.
+              I'm Akintayo Haleem. Over the past 3 years, I have shipped a 100+ SKU e-commerce backend, 20+ endpoint REST APIs, and a Project I2M grant-backed AI ordering agent in Python, Django, FastAPI, and React.
             </p>
           </div>
 
@@ -34,9 +37,9 @@ export default function BentoHero() {
           <div className="mt-10 pt-6 border-t border-white/[0.06] flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
-              className="px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm transition-all shadow-[0_0_20px_rgba(52,211,153,0.3)] active:scale-95 flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm transition-all shadow-lg shadow-black/40 active:scale-95 flex items-center gap-2"
             >
-              <span>Contact me</span>
+              <span>Email Haleem</span>
               <ArrowUpRight size={16} />
             </a>
 
@@ -44,7 +47,7 @@ export default function BentoHero() {
               to="/resume"
               className="px-5 py-3 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-white font-medium text-sm transition-all active:scale-95 flex items-center gap-2"
             >
-              <span>Resume & CV</span>
+              <span>Read Resume</span>
               <ArrowUpRight size={14} className="text-emerald-400" />
             </Link>
 
@@ -110,8 +113,8 @@ export default function BentoHero() {
             <span className="font-heading text-sm font-semibold text-white tracking-wide">
               {PERSONAL_INFO.name}
             </span>
-            <span className="text-[11px] font-mono text-emerald-400 bg-black/60 px-2.5 py-1 rounded-full border border-white/10 backdrop-blur-md">
-              Full-Stack & AI
+            <span className="text-xs font-mono text-emerald-400 bg-black/70 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">
+              Full-Stack &amp; AI Engineer
             </span>
           </div>
         </div>
@@ -120,10 +123,10 @@ export default function BentoHero() {
 
       {/* BOTTOM ROW: Bento Grid of Featured Works + Live GitHub Activity */}
       <div className="relative z-10 mt-4">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div>
-            <h2 className="font-heading text-2xl font-bold text-white">Selected Works & Telemetry</h2>
-            <p className="text-xs font-mono text-slate-400 mt-0.5">Flagship engineering, applications & live open-source stats</p>
+            <h2 className="font-heading text-2xl font-bold text-white">Featured Work &amp; GitHub Activity</h2>
+            <p className="text-xs font-mono text-slate-400 mt-0.5">Flagship engineering case studies and live open-source activity</p>
           </div>
           <Link
             to="/projects"
@@ -135,7 +138,7 @@ export default function BentoHero() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PROJECTS.slice(0, 2).map((project) => (
+          {featuredProjects.map((project) => (
             <div
               key={project.id}
               className="rounded-3xl bg-[#0a0a0c]/80 border border-white/[0.08] backdrop-blur-xl p-6 sm:p-7 flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 shadow-xl group"
@@ -143,9 +146,16 @@ export default function BentoHero() {
               <div>
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
-                    <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider block mb-1">
-                      {project.tag}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                      <span className="text-xs font-mono text-emerald-400 uppercase tracking-wider">
+                        {project.tag}
+                      </span>
+                      {project.metrics?.[0] && (
+                        <span className="text-xs font-mono text-slate-400">
+                          · {project.metrics[0].value}
+                        </span>
+                      )}
+                    </div>
                     <Link to={`/projects/${project.id}`} className="block">
                       <h3 className="font-heading text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
                         {project.title}
@@ -159,7 +169,7 @@ export default function BentoHero() {
                   <Link
                     to={`/projects/${project.id}`}
                     className="h-9 w-9 rounded-full bg-white/[0.08] hover:bg-emerald-400 hover:text-black text-white flex items-center justify-center transition-all shrink-0 active:scale-95"
-                    aria-label={`View case study for ${project.title}`}
+                    aria-label={`Read case study for ${project.title}`}
                   >
                     <ArrowUpRight size={16} />
                   </Link>
@@ -174,7 +184,7 @@ export default function BentoHero() {
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
+                    className="text-xs font-mono px-2.5 py-0.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-slate-300"
                   >
                     {tech}
                   </span>
