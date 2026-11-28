@@ -18,7 +18,8 @@ import {
   ChevronRight,
   Maximize2,
   X,
-  ExternalLink
+  ExternalLink,
+  Activity
 } from 'lucide-react';
 import { PROJECTS } from '../data/PortfolioData';
 import { normalizeScreenshots } from '../lib/utils';
@@ -78,6 +79,8 @@ export default function ProjectDetails() {
 
   const getCategoryIcon = (tag?: string) => {
     switch (tag) {
+      case "Healthcare AI":
+        return <Activity size={15} className="text-emerald-400" />;
       case "AI & Automation":
         return <Bot size={15} className="text-emerald-400" />;
       case "Fintech":

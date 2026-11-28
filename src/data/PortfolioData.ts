@@ -15,6 +15,11 @@ import fanhubImg6 from '../assets/Fanhubplus6.png';
 import fanhubImg7 from '../assets/fanhubplus7.png';
 import fanhubImg8 from '../assets/Fanhubplus8.png';
 import fanhubImg9 from '../assets/Fanhubplus9.png';
+import healthyarnLandingImg from '../assets/healthyarn-landing.png';
+import healthyarnVoiceImg from '../assets/healthyarn-voice-triage.png';
+import healthyarnAnswerImg from '../assets/healthyarn-dual-track-answer.png';
+import healthyarnAlertImg from '../assets/healthyarn-red-flag-alert.png';
+import healthyarnPortalImg from '../assets/healthyarn-governance-portal.png';
 
 export const PERSONAL_INFO = {
   name: "Akintayo Haleem Opeyemi",
@@ -53,10 +58,108 @@ export const SKILLS: SkillCategory[] = [
 
 export const PROJECTS: ProjectItem[] = [
   {
+    id: "healthyarn",
+    title: "HealthYarn",
+    subtitle: "Offline-first voice health guidance PWA (NCS ITDC 2026)",
+    featured: true,
+    status: "Competition Build",
+    tag: "Healthcare AI",
+    role: "Solo Full-Stack & Voice AI Engineer",
+    timeline: "Nov 2026",
+    description:
+      "Voice-first multilingual health guidance PWA across English, Yorùbá, and Nigerian Pidgin, pairing deterministic emergency triage with schema-constrained Gemini routing and offline audio playback.",
+    metrics: [
+      { label: "Safety", value: "100% Red-Flag Recall" },
+      { label: "Languages", value: "EN · Yorùbá · Pidgin" },
+      { label: "Verification", value: "77 Passing Tests" },
+    ],
+    points: [
+      "Built a pre-inference danger-sign safety gate that intercepts emergency queries in English and local languages before any AI output runs.",
+      "Paired schema-constrained Gemini voice routing with automatic fallback to local speech-to-text, fuzzy FAQ matching, and cached offline audio.",
+      "Implemented a role-based staff review workflow separating clinical sign-off from translation approval, backed by 77 automated backend and frontend tests.",
+    ],
+    techStack: [
+      "React 18",
+      "TypeScript",
+      "FastAPI",
+      "SQLModel",
+      "Google Gemini API",
+      "Workbox PWA",
+      "scikit-learn",
+    ],
+    githubUrl: "https://github.com/haleemakintayo/HealthYarn",
+    imageUrl: healthyarnLandingImg,
+    screenshots: [
+      {
+        src: healthyarnLandingImg,
+        caption:
+          "Daylight-triage landing page built for low-bandwidth devices with voice sample triggers and English, Yorùbá, and Pidgin language switching.",
+        alt: "HealthYarn landing page hero with voice sample controls and daylight palette",
+      },
+      {
+        src: healthyarnVoiceImg,
+        caption:
+          "Voice triage hub combining browser audio normalization with Workbox-cached health topics for offline browsing.",
+        alt: "HealthYarn voice triage hub showing offline-ready status, microphone trigger, and starter questions",
+      },
+      {
+        src: healthyarnAnswerImg,
+        caption:
+          "Dual-track answer screen separating guidance for untested vs. clinician-diagnosed callers with playback speed controls (1.0x / 0.75x).",
+        alt: "HealthYarn verified answer screen with dual-track diagnosis toggle and audio speed controls",
+      },
+      {
+        src: healthyarnAlertImg,
+        caption:
+          "Deterministic danger-sign alert that interrupts normal Q&A to display urgent clinic contacts and a 5-second safety lock.",
+        alt: "HealthYarn full-screen crimson urgent danger-sign alert with state-filtered Nigerian clinics",
+      },
+      {
+        src: healthyarnPortalImg,
+        caption:
+          "Staff review portal enforcing separate clinical and language sign-off stages before multilingual health answers go live.",
+        alt: "HealthYarn staff governance portal editing multilingual malaria FAQ across English, Yorùbá, and Pidgin",
+      },
+    ],
+    overview:
+      "Standard health portals assume fluent written English and continuous 4G data, leaving non-English speakers and low-connectivity communities underserved. HealthYarn delivers verified, voice-first guidance in English, Yorùbá, and Nigerian Pidgin with deterministic emergency triage and offline playback.",
+    challenge:
+      "Open-ended LLM chat risks inventing medical diagnoses or dosages, while short browser voice recordings on entry-level phones often produce empty transcripts or misclassify code-switched local speech.",
+    solution:
+      "Built a guardrailed three-tier voice pipeline: every query runs through diacritic-stripped danger-sign checks before schema-bound Gemini routing maps to vetted answers, falling back cleanly to local speech-to-text, fuzzy FAQ matching, and Workbox-cached audio when offline or rate-limited.",
+    features: [
+      {
+        title: "Pre-Inference Red-Flag Safety Gate",
+        description:
+          "Scans normalized transcripts in English and the active local language before AI routing, locking urgent cases into a clinic-call screen with direct phone links.",
+      },
+      {
+        title: "Offline Voice Triage & Fallback Routing",
+        description:
+          "Normalizes browser audio for reliable transcription and degrades cleanly from Gemini routing to fallback speech APIs, local text matching, and cached audio playback.",
+      },
+      {
+        title: "Dual-Track Clinical Governance",
+        description:
+          "Separates guidance for untested vs. diagnosed callers and requires independent clinical and language sign-offs before any edited FAQ publishes.",
+      },
+    ],
+    architecturePoints: [
+      "Deterministic safety gate and strict FAQ-ID JSON schemas prevent unvetted medical claims from reaching callers.",
+      "Zero-PII RAM-only voice handling ensures audio buffers, IP addresses, and device IDs are never written to disk or logs.",
+      "Workbox service worker caches core health topics and multilingual audio clips for uninterrupted offline playback.",
+    ],
+    tradeoffs: [
+      "Pre-generated offline compressed audio clips and ran an in-memory fuzzy/TF-IDF matcher as fallback instead of hosting heavy local speech models requiring dedicated GPUs.",
+      "Excluded public user accounts, saved chat histories, and dosage calculators so callers never expose personal health data or receive automated prescriptions.",
+    ],
+    outcome:
+      "Shipped a Dockerized NCS ITDC 2026 competition build covering 5 core health topics across English, Yorùbá, and Pidgin, verified with 97.1% FAQ match accuracy, 100% red-flag recall, and 77 passing automated tests.",
+  },
+  {
     id: "bukka-ai",
     title: "Bukka AI",
     subtitle: "Autonomous AI Ordering Agent for Food Vendors",
-    featured: true,
     status: "Pilot & Grant-Backed",
     tag: "AI & Automation",
     role: "Backend & AI Engineer",

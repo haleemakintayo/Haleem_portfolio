@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Bot, TrendingUp, ShoppingBag, GraduationCap, Layers, ArrowUpRight, Terminal, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Bot, TrendingUp, ShoppingBag, GraduationCap, Layers, ArrowUpRight, Terminal, Sparkles, Activity } from 'lucide-react';
 import { PROJECTS } from '../data/PortfolioData';
 import type { ProjectItem } from '../types';
 import { normalizeScreenshots } from '../lib/utils';
@@ -55,6 +55,8 @@ export default function ProjectsShowcase({ projects = PROJECTS }: ProjectsShowca
 
   const getCategoryIcon = (tag?: string) => {
     switch (tag) {
+      case 'Healthcare AI':
+        return <Activity size={14} className="text-emerald-400" />;
       case 'AI & Automation':
         return <Bot size={14} className="text-emerald-400" />;
       case 'Fintech':

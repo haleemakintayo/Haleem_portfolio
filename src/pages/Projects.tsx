@@ -11,13 +11,14 @@ import {
   ShoppingBag, 
   GraduationCap,
   LayoutGrid,
-  Layers3
+  Layers3,
+  Activity
 } from 'lucide-react';
 import { PROJECTS, PERSONAL_INFO } from '../data/PortfolioData';
 import type { ProjectItem } from '../types';
 import ProjectsShowcase from '../components/ProjectsShowcase';
 
-const CATEGORIES = ["All", "Fandom & Web", "AI & Automation", "Fintech", "E-Commerce", "Commercial", "EdTech"] as const;
+const CATEGORIES = ["All", "Healthcare AI", "AI & Automation", "E-Commerce", "Commercial", "EdTech", "Fandom & Web", "Fintech"] as const;
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -29,6 +30,8 @@ export default function Projects() {
 
   const getCategoryIcon = (tag?: string) => {
     switch (tag) {
+      case "Healthcare AI":
+        return <Activity size={15} className="text-emerald-400" />;
       case "AI & Automation":
         return <Bot size={15} className="text-emerald-400" />;
       case "Fintech":
